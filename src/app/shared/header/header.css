@@ -1,0 +1,10 @@
+.font-greatvibes {
+    font-family: "Great Vibes", cursive;
+}
+nav.navbar {
+  z-index: 1000;
+  position: relative;
+}
+.bg-fondo {
+  background-color: rgb(249, 236, 220) !important;
+}
