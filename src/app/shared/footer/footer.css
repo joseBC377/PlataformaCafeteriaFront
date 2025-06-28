@@ -2,6 +2,11 @@ body {
     margin: 0;
 }
 
+.brand-text {
+    position: relative;
+    top: 5px;
+}
+
 footer {
     background-color: #6B3B36;
     color: white;
@@ -18,7 +23,7 @@ footer {
     gap: 0.6rem;
 }
 
-.posicion1{
+.posicion1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -70,6 +75,6 @@ footer {
 }
 
 .footer-links a:hover {
-    color: #ffd1a9; 
+    color: #ffd1a9;
     transform: translateX(4px);
 }
