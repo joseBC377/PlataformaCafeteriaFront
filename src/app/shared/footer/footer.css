@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+}
+
+.brand-text {
+    position: relative;
+    top: 5px;
+}
+
+footer {
+    background-color: #6B3B36;
+    color: white;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.posicion1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-logo {
+    width: 70px;
+    height: 70px;
+    fill: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.font-gv {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3rem;
+    color: white;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.25rem 0;
+    transition: color 0.3s ease, transform 0.3s ease;
+    position: relative;
+}
+
+.footer-links a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background-color: #ffffff;
+    transition: width 0.3s ease;
+}
+
+.footer-links a:hover::after {
+    width: 100%;
+}
+
+.footer-links a:hover {
+    color: #ffd1a9;
+    transform: translateX(4px);
+}

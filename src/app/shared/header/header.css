@@ -1,0 +1,27 @@
+.font-greatvibes {
+  font-family: "Great Vibes", cursive;
+}
+
+.brand-text {
+  position: relative;
+  top: 3px;
+}
+
+nav.navbar {
+  z-index: 1000;
+  position: relative;
+  font-weight: bold;
+}
+
+.bg-fondo {
+  background-color: rgb(249, 236, 220) !important;
+}
+
+.navbar .nav-link:hover {
+  color: #6B3B36;
+  font-weight: bold;
+}
+
+.navbar .nav-link {
+  transition: color 0.3s ease;
+}
