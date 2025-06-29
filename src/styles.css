@@ -23,7 +23,6 @@
 
 .contenedor main {
     grid-area: main;
-    padding: 1rem;
 }
 
 .contenedor footer {
