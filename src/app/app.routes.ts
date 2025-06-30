@@ -6,8 +6,8 @@ import { Menu } from './pages/menu/menu';
 
 
 export const routes: Routes = [
-  { path: '', component: Inicio },
-  { path: 'nosotros', component: Nosotros },
-  { path: 'contactanos', component: Contactanos },
-  {path:'menu', component:Menu, title:'Menu'}
+  { path: '', component: Inicio, title: 'inicio' },
+  { path: 'nosotros', component: Nosotros, title: 'nosotros' },
+  { path: 'contactanos', component: Contactanos, title: 'contactanos' },
+  { path: 'menu', component: Menu, title: 'Menu' }
 ];
