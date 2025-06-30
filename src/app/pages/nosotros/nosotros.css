@@ -70,15 +70,14 @@ section {
   text-align: left;
   margin: 0;
 }
-
 .mision {
   align-self: flex-start;
   text-align: auto;
   margin: 0;
   transform: translateX(190px);
- 
-
 }
+
+
 
 .historia .text h3,
 .mision h3 {
@@ -119,7 +118,6 @@ section {
   flex: 1 1 40%;
   box-sizing: border-box;
   display: inline-block;
-
 }
 
 
@@ -180,6 +178,16 @@ section {
     padding: 2rem;
   }
 
+
+@media (max-width: 768px) {
+  .valores {
+    order: 2;
+  }
+
+  .mision {
+    order: 1;
+  }
+}
   .historia .text,
   .mision,
   .valores,
@@ -253,13 +261,9 @@ section {
   .valores ul {
     font-size: 0.95rem;
   }
-
   .valores {
     max-width: 100%;
     margin: 0 auto;
     text-align: center;
   }
-
-
-
 }
