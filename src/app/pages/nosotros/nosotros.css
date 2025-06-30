@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 :host {
@@ -26,13 +28,14 @@ body {
 }
 
 section {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 1.5rem 6rem;
 }
 
 .cafeteria {
   text-align: justify;
+  margin-bottom: 1rem;
 }
 
 .cafeteria h2 {
@@ -72,6 +75,8 @@ section {
   align-self: center;
   text-align: left;
   margin: 0;
+ 
+
 }
 
 .historia .text h3,
@@ -101,6 +106,7 @@ section {
   display: block;
   margin: 0 auto;
 }
+
 .valores {
   background: linear-gradient(to right, #eec1ad, #f6d2c6);
   padding: 1rem 1.5rem;
@@ -111,8 +117,8 @@ section {
   max-width: 350px;
   flex: 1 1 40%;
   box-sizing: border-box;
-   display: inline-block;
-  
+  display: inline-block;
+
 }
 
 
@@ -123,9 +129,10 @@ section {
   line-height: 1.8rem;
   margin: 0;
 }
+
 .mision-valores {
+  padding: 3rem;
   display: flex;
-  align-items: flex-start;
   flex-wrap: wrap;
   gap: 2rem;
 }
@@ -159,6 +166,12 @@ section {
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+}
+.historia{
+  padding: 3rem;
+  background-color: floralwhite;
+  width: 100%;
+  margin-bottom: 0 !important;
 }
 
 @media (max-width: 1024px) {
@@ -215,6 +228,7 @@ section {
 }
 
 @media (max-width: 480px) {
+
   .estrella,
   .bebida {
     width: 40px;
@@ -232,11 +246,12 @@ section {
   .valores ul {
     font-size: 0.95rem;
   }
+
   .valores {
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-}
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
 
 
 

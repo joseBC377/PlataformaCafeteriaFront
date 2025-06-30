@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -8,5 +8,12 @@ import { RouterLink } from '@angular/router';
   styleUrl: './inicio.css'
 })
 export class Inicio {
-
+  constructor(private router:Router){
+  }
+  navegacion():void{
+    this.router.navigate(['/menu'])
+  }
+  navegacion2():void{
+    this.router.navigate(['/contactanos'])
+  }
 }
