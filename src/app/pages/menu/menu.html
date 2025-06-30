@@ -1,0 +1,148 @@
+<div class="cuerpo">
+    <div class="categoria-mayor">
+        <div class="categoria-mayor-item">
+            <div class="circulo" [ngClass]="{'activadorP':isCircle===1}" (click)="setCircle(1)">
+                <img src="/images/menu/nabvarM/Bebidas 1.svg" alt="Bebida">
+            </div>
+            <div class="letra">
+                <p>Bebidas</p>
+            </div>
+        </div>
+        <div class="categoria-mayor-item">
+            <div class="circulo" [ngClass]="{'activadorP':isCircle===2}" (click)="setCircle(2)">
+                <img src="/images/menu/nabvarM/ph_bowl-food-light.svg" alt="Alimentos">
+            </div>
+            <div class="letra">
+                <p>Alimentos</p>
+            </div>
+        </div>
+        <div class="categoria-mayor-item">
+            <div class="circulo" [ngClass]="{'activadorP':isCircle===3}" (click)="setCircle(3)">
+                <img src="/images/menu/nabvarM/icon-park-outline_commodity.svg" alt="Merch">
+            </div>
+            <div class="letra">
+                <p>Mercancia</p>
+            </div>
+        </div>
+        <div class="categoria-mayor-item">
+            <div class="circulo" [ngClass]="{'activadorP':isCircle===4}" (click)="setCircle(4)">
+                <img src="/images/menu/nabvarM/lsicon_badge-promotion-outline.svg" alt="paquetes">
+            </div>
+            <div class="letra">
+                <p>Paquetes</p>
+            </div>
+        </div>
+    </div>
+    <h3>Categorias</h3>
+    <div class="centrado">
+        <div class="categoria-menor">
+            <div class="categoria-menor-subtitulo" [ngClass]="{'activado':isActive===1}" (click)="setActive(1)">
+                <p>Frappuccinos</p>
+            </div>
+            <div class="categoria-menor-subtitulo" [ngClass]="{'activado':isActive===2}" (click)="setActive(2)">
+                <p>Espresso Caliente</p>
+            </div>
+            <div class=" categoria-menor-subtitulo" [ngClass]="{'activado':isActive===3}" (click)="setActive(3)">
+                <p>Espresso Frío</p>
+            </div>
+            <div class=" categoria-menor-subtitulo" [ngClass]="{'activado':isActive===4}" (click)="setActive(4)">
+                <p>Refreshers</p>
+            </div>
+            <div class=" categoria-menor-subtitulo" [ngClass]="{'activado':isActive===5}" (click)="setActive(5)">
+                <p>Shaken Espresso</p>
+            </div>
+        </div>
+    </div>
+    <div class="contenedor-tarjeta">
+        <div class="tarjeta">
+            <div class="titulo">
+                <p>Mocha blanco Frappuccino ® Alto</p>
+            </div>
+            <div class="imagen">
+                <img src="/images/menu/imagen_carta/image_1.jpg" alt="image_1">
+            </div>
+            <div class="botones">
+                <div class="mostrar">
+                    <button>Mostrar Más <i class="fas fa-magnifying-glass"></i></button>
+                </div>
+                <div class="precio">
+                    <button>{{18.50| currency: 'S/' : 'symbol'}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="tarjeta">
+            <div class="titulo">
+                <p>Cookies & Creme Frappuccino Alto</p>
+            </div>
+            <div class="imagen">
+                <img src="/images/menu/imagen_carta/image_2.jpg" alt="image_2">
+            </div>
+            <div class="botones">
+                <div class="mostrar">
+                    <button>Mostrar Más <i class="fas fa-magnifying-glass"></i></button>
+                </div>
+                <div class="precio">
+                    <button>{{16.50| currency: 'S/' : 'symbol'}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="tarjeta">
+            <div class="titulo">
+                <p>Chocolate Cookies & Creme Frappuccino Alto</p>
+            </div>
+            <div class="imagen">
+                <img src="/images/menu/imagen_carta/image_3.png" alt="image_3">
+            </div>
+            <div class="botones">
+                <div class="mostrar">
+                    <button>Mostrar Más <i class="fas fa-magnifying-glass"></i></button>
+                </div>
+                <div class="precio">
+                    <button>{{17.00| currency: 'S/' : 'symbol'}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="tarjeta">
+            <div class="titulo">
+                <p>Matcha late</p>
+            </div>
+            <div class="imagen">
+                <img src="/images/menu/imagen_carta/image_4.png" alt="image_4">
+            </div>
+            <div class="botones">
+                <div class="mostrar">
+                    <button  (click)="toggleModal()">Mostrar Más <i class="fas fa-magnifying-glass"></i></button>
+                </div>
+                <div class="precio">
+                    <button>{{16.00| currency: 'S/' : 'symbol'}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (mostrarElemento) {
+        <div class="modal-overlay" (click)="toggleModal()" ></div>
+    }
+    @if (mostrarElemento) {
+           <div class="menu-flotante">
+        <div class="salida" (click)="toggleModal()">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="contenedor-flotante">
+            <div class="tituloM">
+                <h3>Matcha late</h3>
+            </div>
+            <div class="imagenM">
+                <img src="/images/menu/imagen_carta/image_4.png" alt="image_4">
+            </div>
+            <div class="descripcion">
+                <p>Frappuccino a base de matcha y leche, decorado con crema batida, sin café. Imágenes referenciales</p>
+            </div>
+            <div class="botonM">
+                <button>{{16.00|currency:'S/': 'symbol'}}</button>
+            </div>
+        </div>
+    </div>
+    }
+ 
+
+</div>
