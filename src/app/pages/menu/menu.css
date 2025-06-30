@@ -354,4 +354,7 @@
     width: 90%;
     transition: all 0.3s ease;
 }
+.clase{
+    margin-left: 0 !important;
+}
 }
