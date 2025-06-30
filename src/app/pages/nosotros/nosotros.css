@@ -69,10 +69,9 @@ section {
 }
 
 .mision {
-  align-self: flex-start;
-  margin-left: auto;
-  margin-right: 0;
-  transform: translateX(190px);
+  align-self: center;
+  text-align: left;
+  margin: 0;
 }
 
 .historia .text h3,
@@ -102,15 +101,20 @@ section {
   display: block;
   margin: 0 auto;
 }
-
 .valores {
   background: linear-gradient(to right, #eec1ad, #f6d2c6);
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border-radius: 15px;
   box-shadow: 2px 2px 4px #ccc;
   text-align: left;
-  max-width: 300px;
+  width: 100%;
+  max-width: 350px;
+  flex: 1 1 40%;
+  box-sizing: border-box;
+   display: inline-block;
+  
 }
+
 
 .valores ul {
   list-style: none;
@@ -118,6 +122,12 @@ section {
   font-size: 1.1rem;
   line-height: 1.8rem;
   margin: 0;
+}
+.mision-valores {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .experiencia {
@@ -222,4 +232,12 @@ section {
   .valores ul {
     font-size: 0.95rem;
   }
+  .valores {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+
 }
