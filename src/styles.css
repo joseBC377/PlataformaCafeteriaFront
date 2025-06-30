@@ -17,7 +17,7 @@
 }
 
 .contenedor header {
-    /* height: 4rem; */
+    height: 3rem;
     grid-area: header;
 }
 
@@ -28,6 +28,9 @@
 .contenedor footer {
     grid-area: footer;
     padding: 1rem;
-    background-color: #6B3B36;; 
+    background-color: #6B3B36;
+    ;
     color: #ffffff;
+    position: relative;
+    z-index: 10;
 }
