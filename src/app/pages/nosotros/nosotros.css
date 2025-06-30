@@ -72,9 +72,10 @@ section {
 }
 
 .mision {
-  align-self: center;
-  text-align: left;
+  align-self: flex-start;
+  text-align: auto;
   margin: 0;
+  transform: translateX(190px);
  
 
 }
@@ -203,6 +204,12 @@ section {
     margin-top: 0;
     transform: none;
   }
+  .mision-valores{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  
 }
 
 @media (max-width: 768px) {
