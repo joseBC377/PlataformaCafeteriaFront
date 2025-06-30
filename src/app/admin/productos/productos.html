@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Gestión de Productos de Cafetería ☕</h2>
+
+  <form (ngSubmit)="agregarProducto()" class="row g-3">
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" required />
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Descripción" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" />
+    </div>
+    <div class="col-md-2">
+      <input type="number" class="form-control" placeholder="Precio" [(ngModel)]="nuevoProducto.precio" name="precio" />
+    </div>
+    <div class="col-md-2">
+      <select class="form-select" [(ngModel)]="nuevoProducto.subcategoria" name="subcategoria">
+        <option *ngFor="let sub of subcategorias" [value]="sub">{{ sub }}</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <input type="text" class="form-control" placeholder="URL Imagen" [(ngModel)]="nuevoProducto.imagen" name="imagen" />
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-success">Agregar Producto</button>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-hover mt-4">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Subcategoría</th>
+        <th>Precio (S/)</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of productos">
+        <td>{{ producto.id }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.subcategoria }}</td>
+        <td>{{ producto.precio }}</td>
+        <td><img [src]="producto.imagen" width="50" /></td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="eliminarProducto(producto.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
