@@ -1,0 +1,357 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+
+
+}
+
+
+
+.fas,
+.fa,
+.fa-solid {
+    font-family: "Font Awesome 5 Free", sans-serif;
+    font-weight: 900;
+}
+
+.cuerpo {
+    background-color: #FBF5F1;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.categoria-mayor {
+    margin: 1rem 0rem;
+    display: flex;
+    justify-content: center;
+    gap: 10rem;
+    height: 10rem;
+    width: auto;
+
+}
+
+.categoria-mayor-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+}
+
+.circulo {
+    border-radius: 50%;
+    background-color: #B55641;
+    height: 80%;
+    width: 9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.letra {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.categoria-menor {
+    background-color: #C36A4C;
+    display: flex;
+    gap: 1.5rem;
+    width: 60%;
+    height: 3rem;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 7px;
+}
+
+.centrado {
+    display: flex;
+    justify-content: center;
+}
+
+.categoria-menor-subtitulo {
+    padding: 0.1rem;
+}
+
+.categoria-menor-subtitulo p {
+    font-size: 1.2rem;
+    font-family: "Roboto", sans-serif;
+    color: #ffff;
+    cursor: pointer;
+
+}
+
+.categoria-menor-subtitulo.activado {
+    background-color: #ffff;
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+}
+
+.activado p {
+    color: #C36A4C;
+    font-weight: bold;
+}
+
+.contenedor-tarjeta {
+    display: flex;
+    gap: 4rem;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tarjeta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: #EACFBE;
+    border-radius: 10px;
+}
+
+.titulo {
+    text-align: center;
+    width: 250px;
+    height: 60px;
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+
+.imagen {
+    margin: 0.5rem 0;
+}
+
+.imagen img {
+    height: 11rem;
+    width: 18rem;
+    border-radius: 15px;
+}
+
+.botones {
+    display: flex;
+    flex-direction: column;
+    margin: 0.3rem 0;
+    align-items: center;
+}
+
+.mostrar button {
+    border: 2px solid #C97C5D;
+    border-radius: 5px;
+    margin: 0.5rem;
+    padding: 0.2rem 0.7rem;
+    background-color: #F5E8DF;
+    color: #C97C5D;
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.mostrar button:hover {
+    background-color: #C97C5D;
+    color: #F5E8DF;
+    border: 2px solid #F5E8DF;
+}
+
+.precio {
+    width: 100%;
+}
+
+.precio button {
+    width: 90%;
+    border: 2px solid #ffff;
+    text-align: center;
+    justify-content: center;
+    border-radius: 5px;
+    margin: 0.5rem;
+    padding: 0.2rem 0.7rem;
+    background-color: #964438;
+    color: #ffff;
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.precio button:hover {
+    background-color: #7e3930;
+    color: #ffff;
+    border: 2px solid #ffff;
+}
+
+.circulo.activadorP {
+    background-color: #793933;
+}
+
+.imagenM {
+    height: 11.3rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+.tituloM {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.descripcion {
+    margin: 0.2rem;
+}
+
+.botonM {
+    text-align: center;
+}
+
+.botonM button {
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin-top: 0.6rem;
+    background-color: #964438;
+    color: #ffff;
+    border: 2px solid white;
+    border-radius: 5px;
+    height: 2.4rem;
+}
+
+.botonM button:hover {
+    background-color: #7e3930;
+    color: #ffff;
+    border: 2px solid #ffff;
+}
+
+.salida {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.salida i {
+    font-size: 1.3rem;
+}
+.salida i:hover{
+    color: red;
+    transition: 0.2s ease-in-out;
+}
+.menu-flotante {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.3rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    width: 17%;
+    transition: all 0.3s ease;
+}
+.menu-flotante.show{
+    display: block;
+}
+.modal-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 850px) {
+    .categoria-mayor {
+        display: flex;
+        gap: 0 !important;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        height: 100%;
+        flex-wrap: wrap;
+    }
+
+    .categoria-mayor-item {
+        display: flex;
+        width: 50%;
+        gap: 0.5rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .circulo {
+        height: 100%;
+        width: 7rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .letra {
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .centrado {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+    }
+
+    .categoria-menor {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        height: 100%;
+    }
+
+    .categoria-menor-subtitulo p {
+        font-size: 1.2rem;
+    }
+
+    .contenedor-tarjeta {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        font-size: 1.2rem;
+    }
+
+    .titulo {
+        font-size: 1.2rem;
+    }
+
+    .circulo img {
+        height: 80%;
+    }
+    .menu-flotante {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.3rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    width: 90%;
+    transition: all 0.3s ease;
+}
+}
