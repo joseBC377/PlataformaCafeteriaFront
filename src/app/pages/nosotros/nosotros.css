@@ -67,12 +67,17 @@ section {
   text-align: left;
   margin: 0;
 }
-
 .mision {
   align-self: center;
   text-align: left;
   margin: 0;
+  order: 2;
+  margin-left: auto;
+  max-width: 350px; 
+  padding-right: 1rem; 
 }
+
+
 
 .historia .text h3,
 .mision h3 {
@@ -101,6 +106,7 @@ section {
   display: block;
   margin: 0 auto;
 }
+
 .valores {
   background: linear-gradient(to right, #eec1ad, #f6d2c6);
   padding: 1rem 1.5rem;
@@ -111,8 +117,9 @@ section {
   max-width: 350px;
   flex: 1 1 40%;
   box-sizing: border-box;
-   display: inline-block;
-  
+  display: inline-block;
+  order: 1;
+
 }
 
 
@@ -123,6 +130,7 @@ section {
   line-height: 1.8rem;
   margin: 0;
 }
+
 .mision-valores {
   display: flex;
   align-items: flex-start;
@@ -166,6 +174,16 @@ section {
     padding: 2rem;
   }
 
+
+@media (max-width: 768px) {
+  .valores {
+    order: 2;
+  }
+
+  .mision {
+    order: 1;
+  }
+}
   .historia .text,
   .mision,
   .valores,
@@ -215,6 +233,7 @@ section {
 }
 
 @media (max-width: 480px) {
+
   .estrella,
   .bebida {
     width: 40px;
@@ -232,12 +251,10 @@ section {
   .valores ul {
     font-size: 0.95rem;
   }
+
   .valores {
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-}
-
-
-
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
 }
