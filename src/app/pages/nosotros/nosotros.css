@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 :host {
@@ -26,13 +28,14 @@ body {
 }
 
 section {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 1.5rem 6rem;
 }
 
 .cafeteria {
   text-align: justify;
+  margin-bottom: 1rem;
 }
 
 .cafeteria h2 {
@@ -68,13 +71,10 @@ section {
   margin: 0;
 }
 .mision {
-  align-self: center;
-  text-align: left;
+  align-self: flex-start;
+  text-align: auto;
   margin: 0;
-  order: 2;
-  margin-left: auto;
-  max-width: 350px; 
-  padding-right: 1rem; 
+  transform: translateX(190px);
 }
 
 
@@ -118,8 +118,6 @@ section {
   flex: 1 1 40%;
   box-sizing: border-box;
   display: inline-block;
-  order: 1;
-
 }
 
 
@@ -132,8 +130,8 @@ section {
 }
 
 .mision-valores {
+  padding: 3rem;
   display: flex;
-  align-items: flex-start;
   flex-wrap: wrap;
   gap: 2rem;
 }
@@ -167,6 +165,12 @@ section {
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+}
+.historia{
+  padding: 3rem;
+  background-color: floralwhite;
+  width: 100%;
+  margin-bottom: 0 !important;
 }
 
 @media (max-width: 1024px) {
@@ -208,6 +212,12 @@ section {
     margin-top: 0;
     transform: none;
   }
+  .mision-valores{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  
 }
 
 @media (max-width: 768px) {
@@ -251,7 +261,6 @@ section {
   .valores ul {
     font-size: 0.95rem;
   }
-
   .valores {
     max-width: 100%;
     margin: 0 auto;
