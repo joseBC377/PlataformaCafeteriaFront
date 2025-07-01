@@ -1,12 +1,10 @@
-# Flujo de trabajo para instalar dependencias y ejecutar pruebas en un proyecto Angular
-
 name: Pruebas Angular
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "testAngular" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "testAngular" ]
   workflow_dispatch:
 
 jobs:
@@ -27,3 +25,7 @@ jobs:
 
       - name: Ejecutar pruebas
         run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+           
+      - name: Añadiendo script al proyecto de angular
+        run: echo Hola desde otro script
