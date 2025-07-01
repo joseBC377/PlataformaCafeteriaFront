@@ -28,6 +28,6 @@ jobs:
       - name: Ejecutar pruebas
         run: npm run test -- --watch=false --browsers=ChromeHeadless
         
-      - name: Ejecutar pruebas
+      - name: Añadiendo script
         run: echo Hola desde otro script
         
