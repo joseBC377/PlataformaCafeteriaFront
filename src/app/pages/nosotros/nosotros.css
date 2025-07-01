@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 :host {
@@ -17,6 +19,14 @@ body {
   width: 80px;
 }
 
+.estrella {
+  transition: transform 0.9s ease-in-out;
+}
+
+.estrella:hover {
+  transform: rotate(360deg);
+}
+
 .bebida {
   display: block;
   margin-left: 35%;
@@ -26,13 +36,14 @@ body {
 }
 
 section {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 1.5rem 6rem;
 }
 
 .cafeteria {
   text-align: justify;
+  margin-bottom: 1rem;
 }
 
 .cafeteria h2 {
@@ -67,12 +78,16 @@ section {
   text-align: left;
   margin: 0;
 }
-
 .mision {
-  align-self: center;
-  text-align: left;
+  align-self: flex-start;
+  text-align: auto;
   margin: 0;
+  transform: translateX(190px);
+ 
+
 }
+
+
 
 .historia .text h3,
 .mision h3 {
@@ -101,6 +116,7 @@ section {
   display: block;
   margin: 0 auto;
 }
+
 .valores {
   background: linear-gradient(to right, #eec1ad, #f6d2c6);
   padding: 1rem 1.5rem;
@@ -111,8 +127,7 @@ section {
   max-width: 350px;
   flex: 1 1 40%;
   box-sizing: border-box;
-   display: inline-block;
-  
+  display: inline-block;
 }
 
 
@@ -123,9 +138,10 @@ section {
   line-height: 1.8rem;
   margin: 0;
 }
+
 .mision-valores {
+  padding: 3rem;
   display: flex;
-  align-items: flex-start;
   flex-wrap: wrap;
   gap: 2rem;
 }
@@ -161,18 +177,86 @@ section {
   flex-wrap: wrap;
 }
 
+.historia {
+  padding: 3rem;
+  background-color: floralwhite;
+  width: 100%;
+  margin-bottom: 0 !important;
+}
+
+.historia .imagen {
+  perspective: 1000px;
+}
+
+.historia .imagen img {
+  transition: transform 0.3s ease-out;
+}
+
+.historia .valores .imagen {
+  perspective: 1200px;
+  
+}
+
+.historia:hover .imagen img {
+  transform: translateZ(70px);
+  
+}
+
+.historia .valores:hover .imagen img {
+  transform: translateZ(120px);
+  
+}
+
+.valores ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.valores ul li {
+   margin: 2px 0;
+  font-size: 1.2rem;
+  color: #222222; 
+  transition: transform 1s ease-out, color 0.3s ease-out;
+}
+
+.valores:hover {
+  transform: translateY(0); 
+}
+
+.valores:hover li {
+  transform: translateX(10px); 
+}
+
+.valores ul li:hover {
+  font-weight: bold; 
+}
+
 @media (max-width: 1024px) {
+  p{
+    display: flex;
+    text-align: justify;
+  }
   section {
     padding: 2rem;
   }
 
+
+@media (max-width: 768px) {
+  .valores {
+    order: 2;
+  }
+
+  .mision {
+    order: 1;
+  }
+}
   .historia .text,
   .mision,
   .valores,
   .contenido-experiencia .texto,
   .contenido-experiencia .imagen {
     flex: 1 1 100%;
-    text-align: center;
+    /* text-align: center; */
   }
 
   .estrella {
@@ -190,6 +274,13 @@ section {
     margin-top: 0;
     transform: none;
   }
+
+  .mision-valores {
+    display: flex;
+    /* flex-direction: column-reverse; */
+    align-items: center;
+  }
+
 }
 
 @media (max-width: 768px) {
@@ -215,6 +306,7 @@ section {
 }
 
 @media (max-width: 480px) {
+
   .estrella,
   .bebida {
     width: 40px;
@@ -226,18 +318,14 @@ section {
   }
 
   .intro {
-    font-size: 0.9rem;
+    font-size: 0.rem;
   }
 
   .valores ul {
     font-size: 0.95rem;
   }
   .valores {
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-}
-
-
-
+    max-width: 100%;
+    margin: 0 auto;
+  }
 }
