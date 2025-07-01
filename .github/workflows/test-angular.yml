@@ -2,37 +2,28 @@
 
 name: Pruebas Angular
 
-# Controla cuándo se ejecuta el flujo de trabajo
 on:
-  # Ejecutar en push o pull request a la rama main
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Permite ejecutar manualmente desde la pestaña Actions
   workflow_dispatch:
 
 jobs:
   pruebas:
-    # Usar una máquina virtual Ubuntu
     runs-on: ubuntu-latest
 
     steps:
-      # Clona el repositorio
       - name: Clonar repositorio
         uses: actions/checkout@v4
 
-      # Configura Node.js (usa la versión que tienes en tu proyecto)
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20.19.0 
 
-      # Instala las dependencias del proyecto
       - name: Instalar dependencias
         run: npm ci
 
-      # Ejecuta las pruebas unitarias sin modo interactivo (headless)
       - name: Ejecutar pruebas
         run: npm run test -- --watch=false --browsers=ChromeHeadless
