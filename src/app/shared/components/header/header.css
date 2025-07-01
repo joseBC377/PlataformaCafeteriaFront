@@ -27,3 +27,18 @@ nav.navbar {
 .navbar .nav-link {
   transition: color 0.3s ease;
 }
+a {
+    color: #6B3B36;
+    transition: color 0.3s ease;
+    text-decoration: none;
+      font-weight: bold;
+
+}
+
+a:hover {
+    color: #4b2a26;
+
+}
+.fas{
+  font-size: 1.4rem;
+}
