@@ -1,5 +1,3 @@
-# Flujo de trabajo para instalar dependencias y ejecutar pruebas en un proyecto Angular
-
 name: Pruebas Angular
 
 on:
@@ -27,7 +25,3 @@ jobs:
 
       - name: Ejecutar pruebas
         run: npm run test -- --watch=false --browsers=ChromeHeadless
-        
-      - name: Añadiendo script
-        run: echo Hola desde otro script
-        
