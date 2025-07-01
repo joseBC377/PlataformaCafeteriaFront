@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Gestión de Pagos 💳</h2>
+
+  <form (ngSubmit)="modoEdicion ? actualizarPago() : agregarPago()" class="row g-3">
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="nuevoPago.id_usuario" name="usuario">
+        <option *ngFor="let u of usuarios" [ngValue]="u">{{ u.nombre }}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="nuevoPago.id_pedido" name="pedido">
+        <option *ngFor="let p of pedidos" [ngValue]="p">{{ p.descripcion }}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <input type="date" class="form-control" [(ngModel)]="nuevoPago.fecha_pago" name="fecha" required />
+    </div>
+    <div class="col-md-2">
+      <input type="number" class="form-control" placeholder="Monto (S/)" [(ngModel)]="nuevoPago.monto" name="monto" />
+    </div>
+    <div class="col-md-1">
+      <button type="submit" [ngClass]="modoEdicion ? 'btn btn-warning' : 'btn btn-success'">
+        {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-hover mt-4">
+    <thead class="table-cafe">
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Pedido</th>
+        <th>Fecha</th>
+        <th>Monto (S/)</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pago of pagos">
+        <td>{{ pago.id_pago }}</td>
+        <td>{{ pago.id_usuario.nombre }}</td>
+        <td>{{ pago.id_pedido.descripcion }}</td>
+        <td>{{ pago.fecha_pago }}</td>
+        <td>{{ pago.monto }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-1" (click)="editarPago(pago)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="eliminarPago(pago.id_pago)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

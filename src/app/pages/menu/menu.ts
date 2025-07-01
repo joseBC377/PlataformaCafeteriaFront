@@ -21,5 +21,8 @@ export class Menu {
     this.mostrarElemento = !this.mostrarElemento;
     console.log('El modal está visible:', this.mostrarElemento);
   }
+realizarPedido() {
+  alert('Gracias por tu pedido 🛍️ ¡Estamos preparándolo!');
+}
 
 }

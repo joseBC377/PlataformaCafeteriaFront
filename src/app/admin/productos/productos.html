@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <h2 class="mb-4">Gestión de Productos de Cafetería ☕</h2>
 
-  <form (ngSubmit)="agregarProducto()" class="row g-3">
+  <form (ngSubmit)="modoEdicion ? actualizarProducto() : agregarProducto()" class="row g-3">
     <div class="col-md-3">
       <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" required />
     </div>
@@ -20,7 +20,9 @@
       <input type="text" class="form-control" placeholder="URL Imagen" [(ngModel)]="nuevoProducto.imagen" name="imagen" />
     </div>
     <div class="col-12">
-      <button type="submit" class="btn btn-success">Agregar Producto</button>
+      <button type="submit" [ngClass]="modoEdicion ? 'btn btn-warning' : 'btn btn-success'">
+        {{ modoEdicion ? 'Actualizar Producto' : 'Agregar Producto' }}
+      </button>
     </div>
   </form>
 
@@ -45,6 +47,7 @@
         <td>{{ producto.precio }}</td>
         <td><img [src]="producto.imagen" width="50" /></td>
         <td>
+          <button class="btn btn-primary btn-sm me-1" (click)="editarProducto(producto)">Editar</button>
           <button class="btn btn-danger btn-sm" (click)="eliminarProducto(producto.id)">Eliminar</button>
         </td>
       </tr>

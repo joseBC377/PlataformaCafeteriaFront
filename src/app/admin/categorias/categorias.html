@@ -1,0 +1,34 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Gestión de Categorías 📂</h2>
+
+  <form (ngSubmit)="modoEdicion ? actualizarCategoria() : agregarCategoria()" class="row g-3">
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Nombre de Categoría" [(ngModel)]="nuevaCategoria.nombre" name="nombre" required />
+    </div>
+    <div class="col-md-3">
+      <button type="submit" [ngClass]="modoEdicion ? 'btn btn-warning' : 'btn btn-success'">
+        {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-hover mt-4">
+    <thead class="table-cafe">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let categoria of categorias">
+        <td>{{ categoria.id_categoria }}</td>
+        <td>{{ categoria.nombre }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-1" (click)="editarCategoria(categoria)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="eliminarCategoria(categoria.id_categoria)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

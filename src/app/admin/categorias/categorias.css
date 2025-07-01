@@ -18,16 +18,14 @@ h2 {
   padding-bottom: 10px;
 }
 
-input.form-control,
-select.form-select {
+input.form-control {
   border: 1px solid #d3a166;
   border-radius: 8px;
   background-color: #fffaf4;
   color: #4a2c1d;
 }
 
-input.form-control:focus,
-select.form-select:focus {
+input.form-control:focus {
   border-color: #a3713d;
   box-shadow: 0 0 0 0.2rem rgba(190, 120, 50, 0.25);
 }
@@ -41,7 +39,6 @@ button.btn-success {
 
 button.btn-success:hover {
   background-color: #8b5a2b;
-  border-color: #8b5a2b;
 }
 
 .table {
@@ -57,19 +54,4 @@ button.btn-success:hover {
 .table td {
   vertical-align: middle;
   text-align: center;
-}
-
-.table img {
-  border-radius: 8px;
-  border: 2px solid #e6c3a0;
-}
-
-.btn-danger {
-  background-color: #b24c32;
-  border: none;
-  border-radius: 6px;
-}
-
-.btn-danger:hover {
-  background-color: #902f1c;
 }
