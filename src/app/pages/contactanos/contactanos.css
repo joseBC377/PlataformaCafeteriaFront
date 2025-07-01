@@ -68,22 +68,23 @@
     border: 0;
     border-radius: 20px;
 }
+
 .btn-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
 }
 
 .btn-enviar {
-  background-color: #c9806c;
-  color: #fff;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    background-color: #59302C;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 .btn-enviar:hover{
     background-color: #59302C;

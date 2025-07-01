@@ -124,27 +124,33 @@
     @if (mostrarElemento) {
         <div class="modal-overlay" (click)="toggleModal()" ></div>
     }
-    @if (mostrarElemento) {
-           <div class="menu-flotante">
-        <div class="salida" (click)="toggleModal()">
-            <i class="fa-solid fa-xmark"></i>
-        </div>
-        <div class="contenedor-flotante">
-            <div class="tituloM">
-                <h3>Matcha late</h3>
-            </div>
-            <div class="imagenM">
-                <img src="/images/menu/imagen_carta/image_4.png" alt="image_4">
-            </div>
-            <div class="descripcion">
-                <p>Frappuccino a base de matcha y leche, decorado con crema batida, sin café. Imágenes referenciales</p>
-            </div>
-            <div class="botonM">
-                <button>{{16.00|currency:'S/': 'symbol'}}</button>
-            </div>
-        </div>
+  @if (mostrarElemento) {
+  <div class="menu-flotante">
+    <div class="salida" (click)="toggleModal()">
+      <i class="fa-solid fa-xmark"></i>
     </div>
-    }
- 
+    <div class="contenedor-flotante">
+      <div class="tituloM">
+        <h3>Matcha late</h3>
+      </div>
+      <div class="imagenM">
+        <img src="/images/menu/imagen_carta/image_4.png" alt="image_4">
+      </div>
+      <div class="descripcion">
+        <p>Frappuccino a base de matcha y leche, decorado con crema batida, sin café. Imágenes referenciales</p>
+      </div>
+      <div class="botonM">
+        <button>{{16.00|currency:'S/': 'symbol'}}</button>
+      </div>
+    </div>
+  </div>
+}
 
+<!-- Botón de Pedido siempre visible -->
+<div class="realizar-pedido">
+  <button (click)="realizarPedido()">
+    Realizar Pedido
+  </button>
 </div>
+
+

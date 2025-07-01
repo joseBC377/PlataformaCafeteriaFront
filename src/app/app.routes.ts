@@ -6,13 +6,22 @@ import { Menu } from './pages/menu/menu';
 import { Login } from './pages/login/login';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
-
+import { Productos } from './admin/productos/productos';
+import { PedidoComponent } from './admin/pedido/pedido';
+import { ContactanosComponent } from './admin/contacto/contacto';
+import { PagosComponent } from './admin/pago/pago';
+import { UsuarioComponent } from './admin/usuarios/usuarios';
+import { CategoriasComponent } from './admin/categorias/categorias';
 
 export const routes: Routes = [
-
   {
     path: 'admin', component: AdminLayout, children: [
-
+      { path: 'productos', component: Productos, title: 'Productos-admin' },
+      { path: 'pedido', component: PedidoComponent, title: 'Pedido-admin' },
+      { path: 'contacto', component: ContactanosComponent, title: 'Contactanos-admin' },
+      { path: 'usuario', component: UsuarioComponent, title: 'Usuarios-admin' },
+      { path: 'pago', component: PagosComponent, title: 'Pago-admin' },
+      { path: 'categorias', component: CategoriasComponent, title: 'Categorias-admin' }
     ]
   },
   {
