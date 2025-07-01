@@ -25,3 +25,7 @@ jobs:
 
       - name: Ejecutar pruebas
         run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+           
+      - name: Añadiendo script al proyecto de angular
+        run: echo Hola desde otro script
