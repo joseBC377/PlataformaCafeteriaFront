@@ -10,6 +10,6 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  public title = 'PlataformaCafeteriaFront';
+  protected title = 'PlataformaCafeteriaFront';
 }
 
