@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.video-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.overlay {
+    height: 93dvh;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: white;
+    text-align: center;
+    z-index: 2;
+}
+
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-menu {
+    background-color: #f9ecdc;
+    color: #6B3B36;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-reserva {
+    background-color: #6B3B36;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.25rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    fill: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enunciado {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.encabezado {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: auto;
+    height: 30rem;
+}
+
+.logo {
+    height: 50%;
+    width: 50%;
+}
+
+
+.frase-cafe p {
+    font-family: 'Caveat', cursive;
+    font-size: 2.9rem;
+    font-weight: 600;
+    text-align: center;
+
+}
+
+.button-group {
+    display: flex;
+    gap: 1.3rem;
+
+}
+
+.button-group button {
+    height: 3rem;
+    width: 10rem;
+    font-size: 1.3rem;
+}
+
+.btn-menu:hover {
+    background-color: #cfbfac;
+    color: #6B3B36;
+    transform: scale(1.2) rotate(5deg);
+    transition: 0.3s ease;
+}
+
+.btn-reserva:hover {
+    background-color: #58322e;
+    color: #f9ecdc;
+    transform: scale(1.2) rotate(-5deg);
+    transition: 0.3s ease;
+}
+
+@media screen and (max-width:990px) {
+    .enunciado {
+        overflow: hidden;
+    }
+
+    .encabezado {
+        padding: 1rem;
+    }
+
+    .logo {
+        height: 45%;
+        width: 45%;
+    }
+
+}

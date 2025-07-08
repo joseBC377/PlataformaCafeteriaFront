@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos globales */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.contenedor {
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+}
+
+.contenedor header {
+    height: 3rem;
+    grid-area: header;
+}
+
+.contenedor main {
+    grid-area: main;
+}
+
+.contenedor footer {
+    grid-area: footer;
+    padding: 1rem;
+    background-color: #6B3B36;
+    ;
+    color: #ffffff;
+    position: relative;
+    z-index: 10;
+}

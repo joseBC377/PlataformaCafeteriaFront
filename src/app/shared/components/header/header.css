@@ -1,0 +1,44 @@
+.font-greatvibes {
+  font-family: "Great Vibes", cursive;
+}
+
+.brand-text {
+  position: relative;
+  top: 3px;
+}
+
+nav.navbar {
+   position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10; /* Navbar siempre en la parte superior */
+}
+
+.bg-fondo {
+  background-color: rgb(249, 236, 220) !important;
+}
+
+.navbar .nav-link:hover {
+  color: #6B3B36;
+  font-weight: bold;
+}
+
+.navbar .nav-link {
+  transition: color 0.3s ease;
+}
+a {
+    color: #6B3B36;
+    transition: color 0.3s ease;
+    text-decoration: none;
+      font-weight: bold;
+
+}
+
+a:hover {
+    color: #4b2a26;
+
+}
+.fas{
+  font-size: 1.4rem;
+}

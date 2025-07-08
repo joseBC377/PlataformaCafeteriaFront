@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+.form-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 90px;
+    padding: 40px 20px;
+}
+
+.form-title {
+    font-family: 'Caveat', cursive;
+    font-size: 2.9rem;
+    font-weight: 600;
+}
+
+.form-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    font-weight: 400;
+    text-align: justify;
+}
+
+.form-box {
+    border: 2.5px solid #c9806c;
+    font-weight: 100;
+    background-color: #F2E6DF;
+    padding: 20px;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 6px #c9a09a;
+    font-family: "Roboto", sans-serif;
+}
+
+.form-box label {
+    color: #59302C;
+    font-weight: 400;
+}
+
+.form-box input,
+.form-box textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #c9806c;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff5ee;
+    resize: none;
+}
+
+
+.map {
+    width: 100%;
+    max-width: 800px;
+    height: 460px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 100px;
+}
+
+.map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 20px;
+}
+
+.btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.btn-enviar {
+    background-color: #59302C;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-enviar:hover{
+    background-color: #59302C;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
+}
+
+
+@media (max-width: 768px) {
+    .form-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-title,
+    .form-subtitle {
+        text-align: center;
+    }
+
+    .map {
+        height: 300px;
+        margin-top: 40px;
+    }
+}
+

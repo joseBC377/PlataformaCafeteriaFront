@@ -1,0 +1,66 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Gestión de Usuarios 👥</h2>
+
+  <form (ngSubmit)="modoEdicion ? actualizarUsuario() : agregarUsuario()" class="row g-3">
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required />
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Apellido" [(ngModel)]="nuevoUsuario.apellido" name="apellido" required />
+    </div>
+    <div class="col-md-3">
+      <input type="email" class="form-control" placeholder="Correo" [(ngModel)]="nuevoUsuario.correo" name="correo" required />
+    </div>
+    <div class="col-md-3">
+      <input type="password" class="form-control" placeholder="Contraseña" [(ngModel)]="nuevoUsuario.contrasena" name="contrasena" required />
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Dirección" [(ngModel)]="nuevoUsuario.direccion" name="direccion" />
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Teléfono Celular" [(ngModel)]="nuevoUsuario.telefono_celular" name="telefono_celular" />
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="nuevoUsuario.rol" name="rol">
+        <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" [ngClass]="modoEdicion ? 'btn btn-warning' : 'btn btn-success'">
+        {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-hover mt-4">
+    <thead class="table-cafe">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Contraseña</th>
+        <th>Dirección</th>
+        <th>Celular</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.id_usuario }}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.apellido }}</td>
+        <td>{{ usuario.correo }}</td>
+        <td>{{ usuario.contrasena }}</td>
+        <td>{{ usuario.direccion }}</td>
+        <td>{{ usuario.telefono_celular }}</td>
+        <td>{{ usuario.rol }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-1" (click)="editarUsuario(usuario)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="eliminarUsuario(usuario.id_usuario)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

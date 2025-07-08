@@ -1,0 +1,331 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+:host {
+  background-color: #ecdccc;
+  display: block;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.estrella {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80px;
+}
+
+.estrella {
+  transition: transform 0.9s ease-in-out;
+}
+
+.estrella:hover {
+  transform: rotate(360deg);
+}
+
+.bebida {
+  display: block;
+  margin-left: 35%;
+  margin-right: auto;
+  width: 60px;
+  height: auto;
+}
+
+section {
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  padding: 1.5rem 6rem;
+}
+
+.cafeteria {
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+
+.cafeteria h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.intro {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.historia,
+.mision-valores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.historia .text,
+.mision,
+.valores {
+  flex: 1 1 45%;
+  max-width: 600px;
+  text-align: left;
+  margin: 0;
+}
+.mision {
+  align-self: flex-start;
+  text-align: auto;
+  margin: 0;
+  transform: translateX(190px);
+ 
+
+}
+
+
+
+.historia .text h3,
+.mision h3 {
+  font-family: 'Dancing Script', cursive;
+  font-style: italic;
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.historia .text h2,
+.mision-valores .mision h2,
+.valores h2 {
+  color: #66322F;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.historia .imagen img,
+.mision-valores .imagen img,
+.experiencia img {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 1rem;
+  display: block;
+  margin: 0 auto;
+}
+
+.valores {
+  background: linear-gradient(to right, #eec1ad, #f6d2c6);
+  padding: 1rem 1.5rem;
+  border-radius: 15px;
+  box-shadow: 2px 2px 4px #ccc;
+  text-align: left;
+  width: 100%;
+  max-width: 350px;
+  flex: 1 1 40%;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+
+.valores ul {
+  list-style: none;
+  padding-left: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+  margin: 0;
+}
+
+.mision-valores {
+  padding: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.experiencia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contenido-experiencia {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 1000px;
+  width: 100%;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.contenido-experiencia .texto,
+.contenido-experiencia .imagen {
+  flex: 1 1 45%;
+  text-align: left;
+}
+
+.decoracion {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.historia {
+  padding: 3rem;
+  background-color: floralwhite;
+  width: 100%;
+  margin-bottom: 0 !important;
+}
+
+.historia .imagen {
+  perspective: 1000px;
+}
+
+.historia .imagen img {
+  transition: transform 0.3s ease-out;
+}
+
+.historia .valores .imagen {
+  perspective: 1200px;
+  
+}
+
+.historia:hover .imagen img {
+  transform: translateZ(70px);
+  
+}
+
+.historia .valores:hover .imagen img {
+  transform: translateZ(120px);
+  
+}
+
+.valores ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.valores ul li {
+   margin: 2px 0;
+  font-size: 1.2rem;
+  color: #222222; 
+  transition: transform 1s ease-out, color 0.3s ease-out;
+}
+
+.valores:hover {
+  transform: translateY(0); 
+}
+
+.valores:hover li {
+  transform: translateX(10px); 
+}
+
+.valores ul li:hover {
+  font-weight: bold; 
+}
+
+@media (max-width: 1024px) {
+  p{
+    display: flex;
+    text-align: justify;
+  }
+  section {
+    padding: 2rem;
+  }
+
+
+@media (max-width: 768px) {
+  .valores {
+    order: 2;
+  }
+
+  .mision {
+    order: 1;
+  }
+}
+  .historia .text,
+  .mision,
+  .valores,
+  .contenido-experiencia .texto,
+  .contenido-experiencia .imagen {
+    flex: 1 1 100%;
+    /* text-align: center; */
+  }
+
+  .estrella {
+    width: 60px;
+  }
+
+  .bebida {
+    width: 50px;
+    margin-left: auto;
+  }
+
+  .mision {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    transform: none;
+  }
+
+  .mision-valores {
+    display: flex;
+    /* flex-direction: column-reverse; */
+    align-items: center;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .cafeteria h2 {
+    font-size: 1.8rem;
+  }
+
+  .intro {
+    font-size: 0.95rem;
+    padding: 0 1rem;
+  }
+
+  .historia .text h2,
+  .mision-valores .mision h2,
+  .valores h2 {
+    font-size: 1.5rem;
+  }
+
+  .valores ul {
+    font-size: 1rem;
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .estrella,
+  .bebida {
+    width: 40px;
+  }
+
+  .historia .text h2,
+  .mision-valores .mision h2 {
+    font-size: 1.3rem;
+  }
+
+  .intro {
+    font-size: 0.rem;
+  }
+
+  .valores ul {
+    font-size: 0.95rem;
+  }
+  .valores {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
