@@ -371,3 +371,21 @@ a:hover {
         margin-bottom: 1rem !important;
     }
 }
+
+.alerta {
+  position: absolute;
+  bottom: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.alerta .contenido {
+  background-color: #f8d7da;
+  color: #842029;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  border: 1px solid #f5c2c7;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+  font-size: 0.95rem;
+}

@@ -1,79 +1,46 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { AdminServices } from '../services/admin.services';
+import { UsuarioModel } from '../../features/auth/models/usuario';
 
 @Component({
-  selector: 'app-usuario',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  selector: 'app-usuarios',
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './usuarios.html',
   styleUrls: ['./usuarios.css']
 })
-export class UsuarioComponent {
-  modoEdicion = false;
-  idUsuarioEditar: number | null = null;
+export class Usuarios {
+  protected usuario$!: Observable<UsuarioModel[]>
+  private serv = inject(AdminServices)
+  private fb = inject(FormBuilder);
 
-  usuarios: any[] = [];
+  public usuarioForm: FormGroup = this.fb.group({
+    id_usuario: [null],
+    nombre: ['', [Validators.required, Validators.minLength(3)], Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')],
+    apellido: ['', Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')],
+    correo: ['', [Validators.required, Validators.email]],
+    contrasena: ['', Validators.required],
+    telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
+    rol: ['', Validators.required]
+  });
 
-  nuevoUsuario = {
-    nombre: '',
-    apellido: '',
-    correo: '',
-    contrasena: '',  // 🔁 sin "ñ"
-    direccion: '',
-    telefono_celular: '',
-    rol: 'Cliente'
-  };
+  get nombre() { return this.usuarioForm.get('nombre'); }
+  get apellido() { return this.usuarioForm.get('apellido'); }
+  get correo() { return this.usuarioForm.get('correo'); }
+  get contrasena() { return this.usuarioForm.get('contrasena'); }
+  get telefono() { return this.usuarioForm.get('telefono'); }
 
-  roles = ['Cliente', 'Administrador'];
-
-  agregarUsuario() {
-    const nuevo = {
-      ...this.nuevoUsuario,
-      id_usuario: this.usuarios.length + 1
-    };
-    this.usuarios.push(nuevo);
-    this.resetFormulario();
-  }
-
-  editarUsuario(usuario: any) {
-    this.nuevoUsuario = { ...usuario };
-    this.modoEdicion = true;
-    this.idUsuarioEditar = usuario.id_usuario;
-  }
-
-  actualizarUsuario() {
-    if (this.idUsuarioEditar !== null) {
-      const index = this.usuarios.findIndex(u => u.id_usuario === this.idUsuarioEditar);
-      if (index !== -1) {
-        this.usuarios[index] = { ...this.nuevoUsuario, id_usuario: this.idUsuarioEditar };
-      }
-      this.modoEdicion = false;
-      this.idUsuarioEditar = null;
-      this.resetFormulario();
+  registroFn() {
+    if (this.usuarioForm.invalid) {
+      this.usuarioForm.markAllAsTouched();
+      console.log('Formulario de registro invalido')
+      return;
     }
+    console.log('formulario de registro valido', this.usuarioForm.value)
   }
-
-  eliminarUsuario(id: number) {
-    const confirmar = confirm('¿Deseas eliminar este usuario?');
-    if (confirmar) {
-      this.usuarios = this.usuarios.filter(u => u.id_usuario !== id);
-      if (this.idUsuarioEditar === id) {
-        this.modoEdicion = false;
-        this.idUsuarioEditar = null;
-      }
-    }
-  }
-
-  resetFormulario() {
-    this.nuevoUsuario = {
-      nombre: '',
-      apellido: '',
-      correo: '',
-      contrasena: '',
-      direccion: '',
-      telefono_celular: '',
-      rol: 'Cliente'
-    };
+  ngOnInit(): void {
+    this.usuario$ = this.serv.getSeletAllUsers();
   }
 }
