@@ -8,30 +8,34 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { PedidoComponent } from './admin/pedido/pedido';
 import { Productos } from './admin/productos/productos';
-import { ContactanosComponent } from './admin/contacto/contacto';
-import { UsuarioComponent } from './admin/usuarios/usuarios';
 import { PagosComponent } from './admin/pago/pago';
 import { CategoriasComponent } from './admin/categorias/categorias';
+import { Usuarios } from './admin/usuarios/usuarios';
+import { Contacto } from './admin/contacto/contacto';
+import { Intranet } from './admin/intranet/intranet';
+import { authGuard } from './core/guards/auth-guard';
 
 
 export const routes: Routes = [
   {
-    path: 'admin', component: AdminLayout, children: [
+    path: 'admin', component: AdminLayout, canActivate: [authGuard], children: [
+      { path: 'intranet', component: Intranet, title: 'Intranet' },
       { path: 'productos', component: Productos, title: 'Productos-admin' },
-      { path: 'pedido', component:PedidoComponent, title: 'Pedido-admin' },
-      { path: 'contacto', component: ContactanosComponent, title: 'Contactanos-admin' },
-      { path: 'usuario', component: UsuarioComponent, title: 'Usuarios-admin' },
+      { path: 'pedido', component: PedidoComponent, title: 'Pedido-admin' },
+      { path: 'contacto', component: Contacto, title: 'Contactanos-admin' },
+      { path: 'usuario', component: Usuarios, title: 'Usuarios-admin' },
       { path: 'pago', component: PagosComponent, title: 'Pago-admin' },
       { path: 'categorias', component: CategoriasComponent, title: 'Categorias-admin' }
     ]
   },
   {
     path: '', component: PublicLayout, children: [
-      { path: '', component: Inicio, title: 'inicio' },
       { path: 'nosotros', component: Nosotros, title: 'nosotros' },
       { path: 'contactanos', component: Contactanos, title: 'contactanos' },
       { path: 'menu', component: Menu, title: 'Menu' },
-      { path: 'login', component: Login, title: 'login' }
+      { path: 'login', component: Login, title: 'login' },
+      { path: '', component: Inicio, title: 'inicio' },
+      { path: '**', component: Error, title: "Pagina de error"}
     ]
   }
 ];
