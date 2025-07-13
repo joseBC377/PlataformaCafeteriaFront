@@ -1,101 +1,87 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PedidoModel } from '../../features/auth/models/pedido';
+import { PedidoService } from '../services/pedido.services';
+import { Observable } from 'rxjs';
+import { AdminServices } from '../services/admin.services';
+import { UsuarioModel } from '../../features/auth/models/usuario';
 
 @Component({
   selector: 'app-pedido',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './pedido.html',
   styleUrl: './pedido.css'
 })
 export class PedidoComponent {
-  modoEdicion = false;
-  idPedidoEditar: number | null = null;
+  protected pedido$!: Observable<PedidoModel[]>;
+  protected usuarios$!: Observable<UsuarioModel[]>;
 
-  usuarios = [
-    { id: 1, nombre: 'Ana' },
-    { id: 2, nombre: 'Luis' },
-    { id: 3, nombre: 'Carmen' }
-  ];
+  private serv = inject(PedidoService);
+  private ususerv = inject(AdminServices);
+  private fb = inject(FormBuilder);
 
-  productos = [
-    { id: 1, nombre: 'Mocha blanco', precio: 18.50, imagen: '/images/menu/imagen_carta/image_1.jpg' },
-    { id: 2, nombre: 'Cookies & Creme', precio: 16.50, imagen: '/images/menu/imagen_carta/image_2.jpg' },
-    { id: 3, nombre: 'Chocolate Creme', precio: 17.00, imagen: '/images/menu/imagen_carta/image_3.png' },
-    { id: 4, nombre: 'Matcha Latte', precio: 16.00, imagen: '/images/menu/imagen_carta/image_4.png' }
-  ];
+  public pedidoForm: FormGroup = this.fb.group({
+    id: [null],
+    fecha: ['', Validators.required],
+    usuario: [null, Validators.required]
+  });
 
-  pedidos: any[] = [];
+  get fecha() { return this.pedidoForm.get('fecha'); }
+  get id_usuario() { return this.pedidoForm.get('id_usuario'); }
 
-  nuevoPedido = {
-    fecha: '',
-    id_usuario: this.usuarios[0],
-    producto: this.productos[0],
-    cantidad: 1
-  };
+  public modoEdicion = false;
+  public idPedidoEditar: number | null = null;
 
-  agregarPedido() {
-    const nuevo = {
-      id: this.pedidos.length + 1,
-      fecha: this.nuevoPedido.fecha,
-      usuario: this.nuevoPedido.id_usuario,
-      detalle: {
-        producto: this.nuevoPedido.producto,
-        cantidad: this.nuevoPedido.cantidad,
-        precio_unitario: this.nuevoPedido.producto.precio
-      }
-    };
-    this.pedidos.push(nuevo);
-    this.resetFormulario();
+
+  registroFn(): void {
+    if (this.pedidoForm.invalid) {
+      this.pedidoForm.markAllAsTouched();
+      console.log('Formulario inválido');
+      return;
+    }
+
+    const data = this.pedidoForm.value;
+
+    if (this.modoEdicion) {
+      this.serv.putUpdatepedido(this.idPedidoEditar!, data).subscribe(() => {
+        this.pedido$ = this.serv.getSelectpedido();
+        this.resetFormulario();
+      });
+    } else {
+      this.serv.postInsertpedido(data).subscribe(() => {
+        this.pedido$ = this.serv.getSelectpedido();
+        this.resetFormulario();
+      });
+    }
   }
 
-  editarPedido(pedido: any) {
+  editarPedido(pedido: PedidoModel): void {
+    this.pedidoForm.patchValue(pedido);
+    this.idPedidoEditar = pedido.id ?? null;
     this.modoEdicion = true;
-    this.idPedidoEditar = pedido.id;
-    this.nuevoPedido = {
-      fecha: pedido.fecha,
-      id_usuario: pedido.usuario,
-      producto: pedido.detalle.producto,
-      cantidad: pedido.detalle.cantidad
-    };
   }
 
-  actualizarPedido() {
-    if (this.idPedidoEditar !== null) {
-      const index = this.pedidos.findIndex(p => p.id === this.idPedidoEditar);
-      if (index !== -1) {
-        this.pedidos[index] = {
-          id: this.idPedidoEditar,
-          fecha: this.nuevoPedido.fecha,
-          usuario: this.nuevoPedido.id_usuario,
-          detalle: {
-            producto: this.nuevoPedido.producto,
-            cantidad: this.nuevoPedido.cantidad,
-            precio_unitario: this.nuevoPedido.producto.precio
-          }
-        };
-      }
-      this.resetFormulario();
-      this.modoEdicion = false;
-      this.idPedidoEditar = null;
+  eliminarPedido(id: number): void {
+    if (confirm('¿Deseas eliminar este pedido?')) {
+      this.serv.deleteIdpedido(id).subscribe(() => {
+        this.pedido$ = this.serv.getSelectpedido();
+        if (this.idPedidoEditar === id) this.resetFormulario();
+      });
     }
   }
 
-  eliminarPedido(id: number) {
-    this.pedidos = this.pedidos.filter(p => p.id !== id);
-    if (this.idPedidoEditar === id) {
-      this.modoEdicion = false;
-      this.idPedidoEditar = null;
-    }
+  resetFormulario(): void {
+    this.pedidoForm.reset();
+    this.modoEdicion = false;
+    this.idPedidoEditar = null;
   }
 
-  resetFormulario() {
-    this.nuevoPedido = {
-      fecha: '',
-      id_usuario: this.usuarios[0],
-      producto: this.productos[0],
-      cantidad: 1
-    };
+  ngOnInit(): void {
+    this.pedido$ = this.serv.getSelectpedido();
+    this.usuarios$ = this.ususerv.getSeletAllUsers(); // O el método correcto
   }
+  compararUsuario = (u1: UsuarioModel, u2: UsuarioModel): boolean =>
+    u1 && u2 ? u1.id === u2.id : u1 === u2;
 }

@@ -1,53 +1,121 @@
 <div class="container mt-4">
   <h2 class="mb-4">Gestión de Pagos 💳</h2>
+  <form [formGroup]="pagoForm" class="row g-3 mb-4 p-3 border rounded shadow-sm" (ngSubmit)="registroFn()">
+    <!-- Total -->
+    <div class="col-md-4">
+      <label for="total" class="form-label">Total (S/.)</label>
+      <input type="number" class="form-control" id="total" formControlName="total" placeholder="150.50" />
+      @if (total?.invalid && (total?.dirty || total?.touched)) {
+      <div class="text-danger mt-1">
+        @if (total?.errors?.['required']) {
+        <small>El total es obligatorio.</small>
+        }
+        @if (total?.errors?.['min']) {
+        <small>El total debe ser mayor a 0.</small>
+        }
+      </div>
+      }
+    </div>
 
-  <form (ngSubmit)="modoEdicion ? actualizarPago() : agregarPago()" class="row g-3">
-    <div class="col-md-3">
-      <select class="form-select" [(ngModel)]="nuevoPago.id_usuario" name="usuario">
-        <option *ngFor="let u of usuarios" [ngValue]="u">{{ u.nombre }}</option>
+    <!-- Método de Pago -->
+    <div class="col-md-4">
+      <label for="metodo_pago" class="form-label">Método de Pago</label>
+      <select id="metodo_pago" class="form-select" formControlName="metodo_pago">
+        <option value="" disabled>Seleccione un método...</option>
+        <option value="Efectivo">Efectivo</option>
+        <option value="Tarjeta">Tarjeta</option>
+        <option value="Transferencia">Transferencia</option>
       </select>
+      @if (metodo_pago?.invalid && (metodo_pago?.dirty || metodo_pago?.touched)) {
+      <div class="text-danger mt-1">
+        @if (metodo_pago?.errors?.['required']) {
+        <small>Seleccione un método de pago.</small>
+        }
+      </div>
+      }
     </div>
-    <div class="col-md-3">
-      <select class="form-select" [(ngModel)]="nuevoPago.id_pedido" name="pedido">
-        <option *ngFor="let p of pedidos" [ngValue]="p">{{ p.descripcion }}</option>
-      </select>
+
+    <!-- Fecha -->
+    <div class="col-md-4">
+      <label for="fecha_pago" class="form-label">Fecha de Pago</label>
+      <input type="date" class="form-control" id="fecha_pago" formControlName="fecha_pago" />
+      @if (fecha_pago?.invalid && (fecha_pago?.dirty || fecha_pago?.touched)) {
+      <div class="text-danger mt-1">
+        @if (fecha_pago?.errors?.['required']) {
+        <small>La fecha es obligatoria.</small>
+        }
+      </div>
+      }
     </div>
-    <div class="col-md-3">
-      <input type="date" class="form-control" [(ngModel)]="nuevoPago.fecha_pago" name="fecha" required />
+
+    <!-- ID Pedido -->
+    <div class="col-md-4">
+      <label for="id_pedido" class="form-label">ID Pedido</label>
+      <input type="text" class="form-control" id="id_pedido" formControlName="id_pedido" placeholder="Ej: 101" />
+      @if (id_pedido?.invalid && (id_pedido?.dirty || id_pedido?.touched)) {
+      <div class="text-danger mt-1">
+        @if (id_pedido?.errors?.['required']) {
+        <small>El ID de pedido es obligatorio.</small>
+        }
+        @if (id_pedido?.errors?.['pattern']) {
+        <small>El ID solo debe contener números.</small>
+        }
+      </div>
+      }
     </div>
-    <div class="col-md-2">
-      <input type="number" class="form-control" placeholder="Monto (S/)" [(ngModel)]="nuevoPago.monto" name="monto" />
-    </div>
-    <div class="col-md-1">
-      <button type="submit" [ngClass]="modoEdicion ? 'btn btn-warning' : 'btn btn-success'">
-        {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
+
+    <!-- Botones -->
+    <div class="col-12 mt-4">
+      <button type="submit" class="btn" [ngClass]="modoEdicion ? 'btn-warning' : 'btn-success'"
+        [disabled]="pagoForm.invalid">
+        {{ modoEdicion ? 'Actualizar Pago' : 'Agregar Pago' }}
       </button>
+
+      @if (modoEdicion) {
+      <button type="button" class="btn btn-secondary ms-2" (click)="resetFormulario()">Cancelar Edición</button>
+      }
     </div>
   </form>
 
-  <table class="table table-bordered table-hover mt-4">
-    <thead class="table-cafe">
-      <tr>
-        <th>ID</th>
-        <th>Usuario</th>
-        <th>Pedido</th>
-        <th>Fecha</th>
-        <th>Monto (S/)</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let pago of pagos">
-        <td>{{ pago.id_pago }}</td>
-        <td>{{ pago.id_usuario.nombre }}</td>
-        <td>{{ pago.id_pedido.descripcion }}</td>
-        <td>{{ pago.fecha_pago }}</td>
-        <td>{{ pago.monto }}</td>
-        <td>
-          <button class="btn btn-primary btn-sm me-1" (click)="editarPago(pago)">Editar</button>
-          <button class="btn btn-danger btn-sm" (click)="eliminarPago(pago.id_pago)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Tabla -->
+  <div class="table-responsive mt-4">
+    <table class="table table-bordered table-hover">
+      <thead class="table-cafe">
+        <tr>
+          <th>ID</th>
+          <th>Total (S/.)</th>
+          <th>Método</th>
+          <th>Fecha</th>
+          <th>ID Pedido</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (pago$ | async; as pagoList) {
+        @for (p of pagoList; track p.idPago) {
+        <tr>
+          <td>{{ p.idPago }}</td>
+          <td>{{ p.total }}</td>
+          <td>{{ p.metodo_pago }}</td>
+          <td>{{ p.fecha_pago }}</td>
+          <td>{{ p.id_pedido }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm me-1" (click)="editarPago(p)">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="eliminarPago(p.idPago)">Eliminar</button>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="6">No hay pagos registrados</td>
+        </tr>
+        }
+        } @else {
+        <tr>
+          <td colspan="6">Cargando pagos...</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
 </div>

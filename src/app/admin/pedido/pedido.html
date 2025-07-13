@@ -1,64 +1,88 @@
 <div class="container mt-4">
   <h2 class="mb-4">Gestión de Pedidos 📦</h2>
 
-  <form (ngSubmit)="modoEdicion ? actualizarPedido() : agregarPedido()" class="row g-3">
-    <div class="col-md-3">
-      <input type="date" class="form-control" [(ngModel)]="nuevoPedido.fecha" name="fecha" required />
+  <form [formGroup]="pedidoForm" (ngSubmit)="registroFn()" class="row g-3">
+    <!-- Fecha -->
+    <div class="col-md-4">
+      <label for="fecha" class="form-label">Fecha</label>
+      <input type="date" class="form-control" id="fecha" formControlName="fecha" />
+      @if (fecha?.invalid && (fecha?.dirty || fecha?.touched)) {
+      <div class="text-danger mt-1">
+        @if (fecha?.errors?.['required']) {
+        <small>La fecha es obligatoria.</small>
+        }
+      </div>
+      }
     </div>
 
-    <div class="col-md-3">
-      <select class="form-select" [(ngModel)]="nuevoPedido.id_usuario" name="usuario">
-        <option *ngFor="let u of usuarios" [ngValue]="u">{{ u.nombre }}</option>
+    <!-- Usuario -->
+    <div class="col-md-4">
+      <label for="id_usuario" class="form-label">Usuario</label>
+      @if (usuarios$ | async; as usuarios) {
+      <select class="form-select" formControlName="id_usuario" id="id_usuario">
+        <option value="" disabled>Seleccione un usuario...</option>
+        @for (u of usuarios; track u.id) {
+        <option [value]="u.id">{{ u.nombre }}</option>
+        }
       </select>
+      @if (id_usuario?.invalid && (id_usuario?.dirty || id_usuario?.touched)) {
+      <div class="text-danger mt-1">
+        @if (id_usuario?.errors?.['required']) {
+        <small>El usuario es obligatorio.</small>
+        }
+        @if (id_usuario?.errors?.['pattern']) {
+        <small>El ID debe ser numérico.</small>
+        }
+      </div>
+      }
+      } @else {
+      <div class="text-muted">Cargando usuarios...</div>
+      }
     </div>
 
-    <div class="col-md-3">
-      <select class="form-select" [(ngModel)]="nuevoPedido.producto" name="producto">
-        <option *ngFor="let p of productos" [ngValue]="p">{{ p.nombre }}</option>
-      </select>
-    </div>
-
-    <div class="col-md-2">
-      <input type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="nuevoPedido.cantidad"
-        name="cantidad" />
-    </div>
-
-    <div class="col-md-1">
-      <button type="submit" [ngClass]="modoEdicion ? 'btn btn-warning' : 'btn btn-success'">
+    <!-- Botón -->
+    <div class="col-md-4 align-self-end">
+      <button type="submit" class="btn" [ngClass]="modoEdicion ? 'btn-warning' : 'btn-success'"
+        [disabled]="pedidoForm.invalid">
         {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
       </button>
+      @if (modoEdicion) {
+      <button type="button" class="btn btn-secondary ms-2" (click)="resetFormulario()">Cancelar</button>
+      }
     </div>
   </form>
 
-  <table class="table table-striped mt-4">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Fecha</th>
-        <th>Cliente</th>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Precio Unitario</th>
-        <th>Total</th>
-        <th>Imagen</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let pedido of pedidos">
-        <td>{{ pedido.id }}</td>
-        <td>{{ pedido.fecha }}</td>
-        <td>{{ pedido.usuario.nombre }}</td>
-        <td>{{ pedido.detalle.producto.nombre }}</td>
-        <td>{{ pedido.detalle.cantidad }}</td>
-        <td>S/ {{ pedido.detalle.precio_unitario }}</td>
-        <td>S/ {{ pedido.detalle.cantidad * pedido.detalle.precio_unitario | number:'1.2-2' }}</td>
-        <td><img [src]="pedido.detalle.producto.imagen" width="50" /></td>
-        <td>
-          <button class="btn btn-primary btn-sm me-1" (click)="editarPedido(pedido)">Editar</button>
-          <button class="btn btn-danger btn-sm" (click)="eliminarPedido(pedido.id)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Tabla -->
+  <div class="table-responsive mt-4">
+    <table class="table table-striped mt-4">
+      <thead class="table-cafe">
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Cliente</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (pedido$ | async; as pedidos) {
+        @for (pedido of pedidos; track pedido.id) {
+        <tr>
+          <td>{{ pedido.id }}</td>
+          <td>{{ pedido.fecha }}</td>
+          <td>{{ pedido.Usuario.nombre }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm me-1" (click)="editarPedido(pedido)">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="eliminarPedido(pedido.id)">Eliminar</button>
+          </td>
+        </tr>
+        }
+        } @else {
+        <tr>
+          <td colspan="4">No hay pedidos registrados</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
 </div>
