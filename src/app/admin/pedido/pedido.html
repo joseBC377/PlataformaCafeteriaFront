@@ -17,20 +17,20 @@
 
     <!-- Usuario -->
     <div class="col-md-4">
-      <label for="id_usuario" class="form-label">Usuario</label>
+      <label for="usuario" class="form-label">Usuario</label>
       @if (usuarios$ | async; as usuarios) {
-      <select class="form-select" formControlName="id_usuario" id="id_usuario">
+      <select class="form-select" formControlName="usuario" id="usuario">
         <option value="" disabled>Seleccione un usuario...</option>
         @for (u of usuarios; track u.id) {
         <option [value]="u.id">{{ u.nombre }}</option>
         }
       </select>
-      @if (id_usuario?.invalid && (id_usuario?.dirty || id_usuario?.touched)) {
+      @if (usuario?.invalid && (usuario?.dirty || usuario?.touched)) {
       <div class="text-danger mt-1">
-        @if (id_usuario?.errors?.['required']) {
+        @if (usuario?.errors?.['required']) {
         <small>El usuario es obligatorio.</small>
         }
-        @if (id_usuario?.errors?.['pattern']) {
+        @if (usuario?.errors?.['pattern']) {
         <small>El ID debe ser numérico.</small>
         }
       </div>
@@ -69,7 +69,7 @@
         <tr>
           <td>{{ pedido.id }}</td>
           <td>{{ pedido.fecha }}</td>
-          <td>{{ pedido.Usuario.nombre }}</td>
+          <td>{{ pedido.usuario.nombre}}</td>
           <td>
             <button class="btn btn-primary btn-sm me-1" (click)="editarPedido(pedido)">Editar</button>
             <button class="btn btn-danger btn-sm" (click)="eliminarPedido(pedido.id)">Eliminar</button>

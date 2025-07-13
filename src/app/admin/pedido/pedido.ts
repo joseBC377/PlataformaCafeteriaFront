@@ -29,11 +29,15 @@ export class PedidoComponent {
   });
 
   get fecha() { return this.pedidoForm.get('fecha'); }
-  get id_usuario() { return this.pedidoForm.get('id_usuario'); }
+  get usuario() { return this.pedidoForm.get('usuario'); }
 
   public modoEdicion = false;
   public idPedidoEditar: number | null = null;
 
+// Función para actualizar los pedidos
+  actualizarPedidos(): void {
+    this.pedido$ = this.serv.getSelectpedido();
+  }
 
   registroFn(): void {
     if (this.pedidoForm.invalid) {
@@ -42,23 +46,28 @@ export class PedidoComponent {
       return;
     }
 
-    const data = this.pedidoForm.value;
+    const formValue = this.pedidoForm.value;
+    const data = {
+      ...formValue,
+      usuario: { id: formValue.usuario } 
+    };
 
-    if (this.modoEdicion) {
-      this.serv.putUpdatepedido(this.idPedidoEditar!, data).subscribe(() => {
-        this.pedido$ = this.serv.getSelectpedido();
-        this.resetFormulario();
-      });
-    } else {
-      this.serv.postInsertpedido(data).subscribe(() => {
-        this.pedido$ = this.serv.getSelectpedido();
-        this.resetFormulario();
-      });
-    }
+    const operacion = this.modoEdicion
+      ? this.serv.putUpdatepedido(this.idPedidoEditar!, data)
+      : this.serv.postInsertpedido(data);
+
+    operacion.subscribe(() => {
+      this.actualizarPedidos();  
+      this.resetFormulario();  
+    });
   }
 
   editarPedido(pedido: PedidoModel): void {
-    this.pedidoForm.patchValue(pedido);
+    this.pedidoForm.patchValue({
+      id: pedido.id,
+      fecha: pedido.fecha,
+      usuario: pedido.usuario?.id 
+    });
     this.idPedidoEditar = pedido.id ?? null;
     this.modoEdicion = true;
   }
@@ -66,7 +75,7 @@ export class PedidoComponent {
   eliminarPedido(id: number): void {
     if (confirm('¿Deseas eliminar este pedido?')) {
       this.serv.deleteIdpedido(id).subscribe(() => {
-        this.pedido$ = this.serv.getSelectpedido();
+        this.actualizarPedidos();
         if (this.idPedidoEditar === id) this.resetFormulario();
       });
     }
@@ -79,9 +88,10 @@ export class PedidoComponent {
   }
 
   ngOnInit(): void {
-    this.pedido$ = this.serv.getSelectpedido();
-    this.usuarios$ = this.ususerv.getSeletAllUsers(); // O el método correcto
+    this.actualizarPedidos();
+    this.usuarios$ = this.ususerv.getSeletAllUsers();
   }
+
   compararUsuario = (u1: UsuarioModel, u2: UsuarioModel): boolean =>
     u1 && u2 ? u1.id === u2.id : u1 === u2;
 }
