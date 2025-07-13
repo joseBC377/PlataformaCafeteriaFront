@@ -1,14 +1,30 @@
 <div class="container mt-4">
   <h2 class="mb-4">Gestión de Categorías 📂</h2>
 
-  <form (ngSubmit)="modoEdicion ? actualizarCategoria() : agregarCategoria()" class="row g-3">
+  <form [formGroup]="categoriaForm" (ngSubmit)="registroCategoria()" class="row g-3">
     <div class="col-md-6">
-      <input type="text" class="form-control" placeholder="Nombre de Categoría" [(ngModel)]="nuevaCategoria.nombre" name="nombre" required />
+      <input type="text" class="form-control" placeholder="Nombre de Categoría" formControlName="nombre" name="nombre"
+        required />
+      @if (nombre?.invalid && (nombre?.touched || nombre?.dirty)) {
+      <div class="text-danger mt-1">
+        @if (nombre?.errors?.['required']) {
+        <small>El nombre es obligatorio.</small>
+        }
+        @if (nombre?.errors?.['minlength']) {
+        <small>Mínimo 3 caracteres.</small>
+        }
+      </div>
+      }
     </div>
     <div class="col-md-3">
-      <button type="submit" [ngClass]="modoEdicion ? 'btn btn-warning' : 'btn btn-success'">
-        {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
+      <button type="submit" class="btn" [ngClass]="modoEdicion ? 'btn-warning' : 'btn-success'"
+        [disabled]="categoriaForm.invalid">
+        {{ modoEdicion ? 'Actualizar Categoría' : 'Agregar Categoría' }}
       </button>
+
+      @if (modoEdicion) {
+      <button type="button" class="btn btn-secondary ms-2" (click)="resetFormulario()">Cancelar Edición</button>
+      }
     </div>
   </form>
 
@@ -21,14 +37,29 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let categoria of categorias">
-        <td>{{ categoria.id_categoria }}</td>
-        <td>{{ categoria.nombre }}</td>
+      @if (categorias$ | async; as catList) {
+      @for (cat of catList; track cat.id) {
+      <tr>
+        <td>{{ cat.id }}</td>
+        <td>{{ cat.nombre }}</td>
         <td>
-          <button class="btn btn-primary btn-sm me-1" (click)="editarCategoria(categoria)">Editar</button>
-          <button class="btn btn-danger btn-sm" (click)="eliminarCategoria(categoria.id_categoria)">Eliminar</button>
+          <button class="btn btn-warning btn-sm me-1" (click)="editarCategoria(cat)">Editar</button>
+          <button class="btn btn-danger btn-sm" *ngIf="cat.id" (click)="eliminarCategoria(cat.id)">
+            Eliminar
+          </button>
+
         </td>
       </tr>
+      } @empty {
+      <tr>
+        <td colspan="7">No hay categorías registradas.</td>
+      </tr>
+      }
+      } @else {
+      <tr>
+        <td colspan="7">Cargando categorías...</td>
+      </tr>
+      }
     </tbody>
   </table>
 </div>
