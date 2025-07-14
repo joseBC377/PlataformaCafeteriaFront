@@ -5,7 +5,7 @@ import { SubcategoriaModel } from '../../features/auth/models/subcategoria';
 import { SubcategoriaServices } from '../services/subcategoria.services';
 import { CategoriaServices } from '../services/categoria.services';
 import { CategoriaModel } from '../../features/auth/models/categoria';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -80,13 +80,20 @@ export class SubcategoriasComponent {
       });
     }
   }
+editarSubcategoria(sub: SubcategoriaModel): void {
+  firstValueFrom(this.categorias$).then(catList => {
+    const categoriaMatch = catList.find(cat => cat.id === sub.categoria.id);
 
-  editarSubcategoria(sub: SubcategoriaModel): void {
-    this.subcategoriaForm.patchValue(sub);
+    this.subcategoriaForm.patchValue({
+      id: sub.id,
+      nombre: sub.nombre,
+      categoria: categoriaMatch ?? null
+    });
+
     this.idSubEditar = sub.id ?? null;
     this.modoEdicion = true;
-  }
-
+  });
+}
   eliminarSubcategoria(id: number): void {
     if (confirm('¿Deseas eliminar esta subcategoría?')) {
       this.subServ.deleteSubcategoria(id).subscribe(() => {
@@ -101,4 +108,9 @@ export class SubcategoriasComponent {
     this.modoEdicion = false;
     this.idSubEditar = null;
   }
+compararCategorias = (a: CategoriaModel, b: CategoriaModel): boolean => {
+  return a && b ? a.id === b.id : a === b;
+};
+
+
 }

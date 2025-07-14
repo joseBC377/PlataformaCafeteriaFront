@@ -8,7 +8,7 @@ import { ProductoModel } from '../../features/auth/models/producto';
 import { SubcategoriaModel } from '../../features/auth/models/subcategoria';
 import { ProductoServices } from '../services/producto.services';
 import { SubcategoriaServices } from '../services/subcategoria.services';
-
+import { take } from 'rxjs';
 @Component({
   selector: 'app-productos',
   standalone: true,
@@ -30,11 +30,13 @@ protected productos$ = this.productosSubject.asObservable();
   nombre: ['', [Validators.required, Validators.minLength(3)]],
   descripcion: ['', Validators.required],
   precio: [0, [Validators.required, Validators.min(0.01)]],
-  subcategoria: [null, Validators.required]
+subcategoria: [null, Validators.required] // NO usar solo el id
+
 });
 
 
 public eliminandoIds = new Set<number>();
+public imagenVistaPrevia: string | null = null;
 
   public modoEdicion = false;
   public idProductoEditar: number | null = null;
@@ -103,29 +105,33 @@ registroProducto(): void {
 
 
 
- editarProducto(prod: ProductoModel): void {
-  // Buscar la subcategoría exacta en la lista
-  this.subServ.getAllSubcategorias().subscribe(subcategorias => {
+
+
+editarProducto(prod: ProductoModel): void {
+  this.subServ.getAllSubcategorias().pipe(take(1)).subscribe(subcategorias => {
     const subcategoriaMatch = subcategorias.find(
       sub => sub.id === prod.subcategoria.id
     );
 
     this.productoForm.patchValue({
-      ...prod,
+      id: prod.id,
+      nombre: prod.nombre,
+      descripcion: prod.descripcion,
+      precio: prod.precio,
       subcategoria: subcategoriaMatch ?? null
     });
 
+    this.imagenVistaPrevia = 'http://localhost:8082' + prod.imagen;
     this.idProductoEditar = prod.id ?? null;
     this.modoEdicion = true;
   });
 }
 
-
  eliminarProducto(id: number): void {
-  if (this.eliminandoIds.has(id)) return; // ✅ Previene doble clic
+  if (this.eliminandoIds.has(id)) return; 
 
   if (confirm('¿Deseas eliminar este producto?')) {
-    this.eliminandoIds.add(id); // ✅ Marca como eliminando
+    this.eliminandoIds.add(id); 
 
     this.productoServ.deleteProductos(id).subscribe({
       next: () => {
@@ -135,12 +141,10 @@ registroProducto(): void {
         if (this.idProductoEditar === id) {
           this.resetFormulario();
         }
-        this.eliminandoIds.delete(id); // ✅ Libera el ID
+        this.eliminandoIds.delete(id);
       },
       error: err => {
         console.error('Error al eliminar producto', err);
-
-        // ✅ Si ya fue eliminado, lo quitamos igual
         if (err.status === 404) {
           this.productos$ = this.productos$.pipe(
             map(productos => productos.filter(p => p.id !== id))
@@ -149,16 +153,36 @@ registroProducto(): void {
           alert('Error al eliminar. Verifica si el producto ya fue eliminado.');
         }
 
-        this.eliminandoIds.delete(id); // ✅ Siempre liberamos
+        this.eliminandoIds.delete(id); 
       }
     });
   }
 }
 
+resetFormulario(): void {
+  this.productoForm.reset();
+  this.modoEdicion = false;
+  this.idProductoEditar = null;
+  this.imagenVistaPrevia = null;
 
-  resetFormulario(): void {
-    this.productoForm.reset();
-    this.modoEdicion = false;
-    this.idProductoEditar = null;
+  const fileInput = document.querySelector<HTMLInputElement>('#fileImagen');
+  if (fileInput) fileInput.value = '';
+}
+
+
+  mostrarVistaPrevia(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagenVistaPrevia = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
   }
+}
+compararSubcategorias = (a: SubcategoriaModel, b: SubcategoriaModel): boolean => {
+  return a && b ? a.id === b.id : a === b;
+};
+
+
 }
