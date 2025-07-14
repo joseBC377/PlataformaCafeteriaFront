@@ -1,56 +1,108 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Gestión de Productos de Cafetería ☕</h2>
+  <h2 class="mb-4 text-center text-md-start">Gestión de Productos 🛒</h2>
 
-  <form (ngSubmit)="modoEdicion ? actualizarProducto() : agregarProducto()" class="row g-3">
-    <div class="col-md-3">
-      <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" required />
+  <form [formGroup]="productoForm" (ngSubmit)="registroProducto()" class="row g-3">
+    <div class="col-12 col-md-4">
+      <input type="text" class="form-control" placeholder="Nombre del producto" formControlName="nombre" />
+      @if (nombre?.invalid && (nombre?.touched || nombre?.dirty)) {
+      <div class="text-danger mt-1">
+        @if (nombre?.errors?.['required']) {
+        <small>El nombre es obligatorio.</small>
+        }
+        @if (nombre?.errors?.['minlength']) {
+        <small>Mínimo 3 caracteres.</small>
+        }
+      </div>
+      }
     </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control" placeholder="Descripción" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" />
+
+    <div class="col-12 col-md-4">
+      <input type="text" class="form-control" placeholder="Descripción" formControlName="descripcion" />
     </div>
-    <div class="col-md-2">
-      <input type="number" class="form-control" placeholder="Precio" [(ngModel)]="nuevoProducto.precio" name="precio" />
+
+    <div class="col-12 col-md-4">
+      <input type="file" class="form-control" id="fileImagen" (change)="mostrarVistaPrevia($event)" />
+      <div class="mt-2 text-center" *ngIf="imagenVistaPrevia">
+        <img [src]="imagenVistaPrevia" alt="Vista previa" class="img-thumbnail mt-2" width="120" />
+      </div>
     </div>
-    <div class="col-md-2">
-      <select class="form-select" [(ngModel)]="nuevoProducto.subcategoria" name="subcategoria">
-        <option *ngFor="let sub of subcategorias" [value]="sub">{{ sub }}</option>
+
+   <div class="col-12 col-sm-6 col-md-4">
+  <input type="number" class="form-control" placeholder="Precio" formControlName="precio" step="0.01" />
+</div>
+
+
+    <div class="col-12 col-sm-6 col-md-4">
+      <select class="form-select" formControlName="subcategoria" [compareWith]="compararSubcategorias">
+        <option value="">Seleccionar Subcategoría</option>
+        @if (subcategorias$ | async; as subList) {
+        @for (sub of subList; track sub.id) {
+        <option [ngValue]="sub">{{ sub.nombre }} - {{ sub.categoria.nombre }}</option>
+        }
+        }
       </select>
     </div>
-    <div class="col-md-2">
-      <input type="text" class="form-control" placeholder="URL Imagen" [(ngModel)]="nuevoProducto.imagen" name="imagen" />
-    </div>
-    <div class="col-12">
-      <button type="submit" [ngClass]="modoEdicion ? 'btn btn-warning' : 'btn btn-success'">
+
+    <div class="col-12 col-md-5 d-flex flex-column flex-md-row align-items-start">
+      <button type="submit" class="btn me-md-2 mb-2 mb-md-0"
+        [ngClass]="modoEdicion ? 'btn-warning' : 'btn-success'" [disabled]="productoForm.invalid">
         {{ modoEdicion ? 'Actualizar Producto' : 'Agregar Producto' }}
       </button>
+      @if (modoEdicion) {
+      <button type="button" class="btn btn-secondary" (click)="resetFormulario()">Cancelar</button>
+      }
     </div>
   </form>
 
-  <table class="table table-bordered table-hover mt-4">
-    <thead class="table-cafe">
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Subcategoría</th>
-        <th>Precio (S/)</th>
-        <th>Imagen</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let producto of productos">
-        <td>{{ producto.id }}</td>
-        <td>{{ producto.nombre }}</td>
-        <td>{{ producto.descripcion }}</td>
-        <td>{{ producto.subcategoria }}</td>
-        <td>{{ producto.precio }}</td>
-        <td><img [src]="producto.imagen" width="50" /></td>
-        <td>
-          <button class="btn btn-primary btn-sm me-1" (click)="editarProducto(producto)">Editar</button>
-          <button class="btn btn-danger btn-sm" (click)="eliminarProducto(producto.id)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive mt-4">
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Subcategoría</th>
+          <th>Categoría</th>
+          <th>Imagen</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (productos$ | async; as prodList) {
+        @for (prod of prodList; track prod.id) {
+        <tr>
+          <td>{{ prod.id }}</td>
+          <td>{{ prod.nombre }}</td>
+          <td>{{ prod.descripcion }}</td>
+          <td>S/. {{ prod.precio | number: '1.2-2' }}</td>
+          <td>{{ prod.subcategoria.nombre }}</td>
+          <td>{{ prod.subcategoria.categoria.nombre }}</td>
+          <td>
+            <img [src]="'http://localhost:8082' + prod.imagen" width="80" />
+          </td>
+          <td>
+            <div class="d-flex flex-column flex-md-row gap-2">
+              <button class="btn btn-warning btn-sm" (click)="editarProducto(prod)">Editar</button>
+              <button class="btn btn-danger btn-sm" [disabled]="eliminandoIds.has(prod.id!)"
+                (click)="eliminarProducto(prod.id!)">
+                Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+        @empty {
+        <tr>
+          <td colspan="8">No hay productos registrados.</td>
+        </tr>
+        }
+        } @else {
+        <tr>
+          <td colspan="8">Cargando productos...</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>

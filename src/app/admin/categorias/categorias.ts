@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CategoriaModel } from '../../features/auth/models/categoria';
 import { CategoriaServices } from '../services/categoria.services';
 import { Observable } from 'rxjs';
-
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-categorias',
   standalone: true,
@@ -27,9 +27,11 @@ export class CategoriasComponent {
 
   get nombre() { return this.categoriaForm.get('nombre'); }
 
-  ngOnInit(): void {
-    this.categorias$ = this.serv.getSelectcategoria();
-  }
+ngOnInit(): void {
+  this.categorias$ = this.serv.getSelectcategoria().pipe(
+    map(categorias => categorias.sort((a, b) => a.id - b.id))
+  );
+}
 
   registroCategoria(): void {
     if (this.categoriaForm.invalid) {

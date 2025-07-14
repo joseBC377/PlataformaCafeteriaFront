@@ -22,7 +22,9 @@ export class CategoriaServices {
   putUpdatecategoria(id: number, categoria: CategoriaModel): Observable<CategoriaModel> {
     return this.http.put<CategoriaModel>(`${this.API_URL}/actualizar/${id}`, categoria);
   }
-  deleteIdcategoria(id: number): Observable<CategoriaModel> {
-    return this.http.delete<CategoriaModel>(`${this.API_URL}/eliminar/${id}`);
+  deleteIdcategoria(id: number): Observable<string> {
+    return this.http.delete(`${this.API_URL}/eliminar/${id}`, {
+      responseType: 'text'
+    });
   }
 }
