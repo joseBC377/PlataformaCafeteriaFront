@@ -23,6 +23,9 @@ select.form-select {
   border: 1px solid #c59772;
   border-radius: 8px;
   color: #3b2415;
+    padding: 0.6rem 1rem;
+      font-size: 1rem;
+       min-width: 100%;
 }
 
 .table-cafe th {
