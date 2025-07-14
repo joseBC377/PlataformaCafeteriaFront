@@ -1,0 +1,70 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Gestión de Subcategorías 🗂️</h2>
+    <form [formGroup]="subcategoriaForm" (ngSubmit)="registroSubcategoria()" class="row g-3">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Nombre de Subcategoría" formControlName="nombre" />
+            @if (nombre?.invalid && (nombre?.touched || nombre?.dirty)) {
+            <div class="text-danger mt-1">
+                @if (nombre?.errors?.['required']) {
+                <small>El nombre es obligatorio.</small>
+                }
+                @if (nombre?.errors?.['minlength']) {
+                <small>Mínimo 3 caracteres.</small>
+                }
+            </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <select class="form-select" formControlName="categoria" required>
+                <option value="">Seleccionar Categoría</option>
+                @if (categorias$ | async; as catList) {
+                @for (cat of catList; track cat.id) {
+                <option [ngValue]="cat">{{ cat.nombre }}</option>
+                }
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn" [ngClass]="modoEdicion ? 'btn-warning' : 'btn-success'"
+                [disabled]="subcategoriaForm.invalid">
+                {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
+            </button>
+            @if (modoEdicion) {
+            <button type="button" class="btn btn-secondary ms-2" (click)="resetFormulario()">Cancelar</button>
+            }
+        </div>
+    </form>
+    <table class="table table-bordered table-hover mt-4">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (subcategorias$ | async; as subList) {
+            @for (sub of subList; track sub.id) {
+            <tr>
+                <td>{{ sub.id }}</td>
+                <td>{{ sub.nombre }}</td>
+                <td>{{ sub.categoria.nombre }}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm me-1" (click)="editarSubcategoria(sub)">Editar</button>
+                    <button class="btn btn-danger btn-sm" (click)="eliminarSubcategoria(sub.id!)">Eliminar</button>
+                </td>
+            </tr>
+            } @empty {
+            <tr>
+                <td colspan="4" class="text-center">No hay subcategorías registradas.</td>
+            </tr>
+            }
+            } @else {
+            <tr>
+                <td colspan="4" class="text-center">Cargando subcategorías...</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
