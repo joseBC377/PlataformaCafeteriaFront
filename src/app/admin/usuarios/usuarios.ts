@@ -7,40 +7,47 @@ import { UsuarioModel } from '../../features/auth/models/usuario';
 
 @Component({
   selector: 'app-usuarios',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './usuarios.html',
   styleUrls: ['./usuarios.css']
 })
 export class Usuarios {
-  protected usuario$!: Observable<UsuarioModel[]>
-  private serv = inject(AdminServices)
+  protected usuario$!: Observable<UsuarioModel[]>;
+  protected usuarioForm!: FormGroup;
+  protected roles: string[] = ['ADMIN', 'CLIENTE'];
+
+  private serv = inject(AdminServices);
   private fb = inject(FormBuilder);
 
-  public usuarioForm: FormGroup = this.fb.group({
-    id_usuario: [null],
-    nombre: ['', [Validators.required, Validators.minLength(3)], Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')],
-    apellido: ['', Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')],
-    correo: ['', [Validators.required, Validators.email]],
-    contrasena: ['', Validators.required],
-    telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
-    rol: ['', Validators.required]
-  });
+  ngOnInit(): void {
+    this.usuarioForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      apellido: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      correo: ['', [Validators.required, Validators.email]],
+      contrasena: ['', [Validators.required, Validators.minLength(6)]],
+      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
+      rol: ['', Validators.required]
+    });
+
+    this.usuario$ = this.serv.getSeletAllUsers(); 
+  }
 
   get nombre() { return this.usuarioForm.get('nombre'); }
   get apellido() { return this.usuarioForm.get('apellido'); }
   get correo() { return this.usuarioForm.get('correo'); }
   get contrasena() { return this.usuarioForm.get('contrasena'); }
   get telefono() { return this.usuarioForm.get('telefono'); }
+  get rol() { return this.usuarioForm.get('rol'); }
 
   registroFn() {
     if (this.usuarioForm.invalid) {
       this.usuarioForm.markAllAsTouched();
-      console.log('Formulario de registro invalido')
+      console.log('Formulario de registro inválido');
       return;
     }
-    console.log('formulario de registro valido', this.usuarioForm.value)
-  }
-  ngOnInit(): void {
-    this.usuario$ = this.serv.getSeletAllUsers();
+
+    console.log('Formulario válido ✅', this.usuarioForm.value);
+  
   }
 }
