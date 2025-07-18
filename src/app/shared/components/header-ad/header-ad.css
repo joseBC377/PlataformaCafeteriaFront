@@ -8,11 +8,12 @@
 }
 
 nav.navbar {
-   position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10; /* Navbar siempre en la parte superior */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  /* Navbar siempre en la parte superior */
 }
 
 .bg-fondo {
@@ -27,6 +28,7 @@ nav.navbar {
 .navbar .nav-link {
   transition: color 0.3s ease;
 }
+
 a {
     color: #6B3B36;
     transition: color 0.3s ease;
@@ -39,6 +41,24 @@ a:hover {
     color: #4b2a26;
 
 }
-.fas{
+
+.fas {
   font-size: 1.4rem;
+}
+
+.perfil {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  background-color: #8f3d28;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+.perfil a{
+  color: white;
+}
+
+.perfil:hover{
+  background-color: #4b2a26;
 }

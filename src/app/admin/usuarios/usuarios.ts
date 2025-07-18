@@ -16,11 +16,17 @@ export class Usuarios {
   protected usuario$!: Observable<UsuarioModel[]>;
   protected usuarioForm!: FormGroup;
   protected roles: string[] = ['ADMIN', 'CLIENTE'];
+  protected modoEdicion = false;
+  private idUsuarioEditando: number | null = null;
 
   private serv = inject(AdminServices);
   private fb = inject(FormBuilder);
 
   ngOnInit(): void {
+    this.crearFormulario();
+    this.cargarUsuarios();
+  }
+  private crearFormulario() {
     this.usuarioForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z\s]*$/)]],
       apellido: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
@@ -30,9 +36,10 @@ export class Usuarios {
       rol: ['', Validators.required]
     });
 
-    this.usuario$ = this.serv.getSeletAllUsers(); 
   }
-
+  private cargarUsuarios() {
+    this.usuario$ = this.serv.getSeletAllUsers();
+  }
   get nombre() { return this.usuarioForm.get('nombre'); }
   get apellido() { return this.usuarioForm.get('apellido'); }
   get correo() { return this.usuarioForm.get('correo'); }
@@ -46,8 +53,32 @@ export class Usuarios {
       console.log('Formulario de registro inválido');
       return;
     }
-
-    console.log('Formulario válido ✅', this.usuarioForm.value);
-  
+    const datos: UsuarioModel = this.usuarioForm.value;
+    if (this.modoEdicion && this.idUsuarioEditando !== null) {
+      this.serv.putUpdateUser(this.idUsuarioEditando, datos).subscribe(() => {
+        this.resetFormulario();
+        this.cargarUsuarios();
+      });
+    } else {
+      this.serv.postInsertIdUser(datos).subscribe(() => {
+        this.usuarioForm.reset();
+        this.cargarUsuarios();
+      });
+    }
+  }
+  editarUsuario(usuario: UsuarioModel) {
+    this.modoEdicion = true;
+    this.idUsuarioEditando = usuario.id!;
+    this.usuarioForm.patchValue(usuario);
+  }
+  eliminarUsuario(id: number) {
+    if (confirm('¿Estas seguro que deseas eliminar este usuario?')) {
+      this.serv.deleteIdUser(id).subscribe(() => this.cargarUsuarios());
+    }
+  }
+  resetFormulario() {
+    this.usuarioForm.reset();
+    this.modoEdicion = false;
+    this.idUsuarioEditando = null;
   }
 }
