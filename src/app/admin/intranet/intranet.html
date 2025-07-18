@@ -1,5 +1,5 @@
 <div class="cuerpo">
-    <div class="container mt-4">
+    <div class="container mt-5 ">
         <h2>Intranet de Administrador</h2>
         <div class="container my-4">
             <div class="row align-items-center g-2">
@@ -74,7 +74,7 @@
                 </thead>
                 <tbody>
                     @if (contero$|async; as conteo) {
-                    @for (c of conteo; track contero$) {
+                    @for (c of conteo; track c.rol) {
                     <tr>
                         <td>{{c.rol}}</td>
                         <td>{{c.cantidad}}</td>
@@ -94,5 +94,5 @@
         <ng-template #sinUsuarios>
             <div class="alert alert-info mt-4">No hay Roles asignados</div>
         </ng-template>
-    </div> -->
-</div>
+    </div>
+</div> -->
