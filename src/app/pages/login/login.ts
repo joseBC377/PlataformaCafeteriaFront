@@ -84,10 +84,10 @@ export class Login {
     return this.registrForm.get('telefono');
   }
   get correoRegistro():AbstractControl|null{
-    return this.registrForm.get('correoRe');
+    return this.registrForm.get('correo');
   }
   get passwordRegistro():AbstractControl|null{
-    return this.registrForm.get('passwordRe');
+    return this.registrForm.get('contrasena');
   }
   get rol(){
     return this.registrForm.get('rol');
@@ -103,7 +103,7 @@ export class Login {
     //operación de servicio
     this.serv.postInsertIdUser(datos).subscribe({
       next:(res)=>{
-        this.mensajeRegistro.set('Usuario registrado exzitosamente');
+        this.mensajeRegistro.set('Usuario registrado exitosamente');
         this.registrForm.reset();//tambien quiero mandarlo a inicio
 
       }, error:(err)=>{
