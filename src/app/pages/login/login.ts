@@ -3,6 +3,9 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validator
 import { Credenciales } from '../../features/auth/models/credenciales';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { AdminServices } from '../../admin/services/admin.services';
+import { Rol } from '../../features/auth/models/rol';
+import { UsuarioModel } from '../../features/auth/models/usuario';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule],
@@ -18,8 +21,9 @@ export class Login {
     this.toggled = true;
   }
   //fomrulario login con guards
-  private fb= inject(FormBuilder)
+  private fb= inject(FormBuilder);
   private service= inject(AuthService);
+  public mensajeRegistro =signal<String| null>(null);
   private credenciales: Credenciales ={
     email: '', password:''
   }
@@ -60,12 +64,14 @@ export class Login {
     })
   }
   //formulario registro
+  private serv= inject(AdminServices);
   public registrForm: FormGroup= this.fb.group({
     nombre:['',[Validators.required,Validators.minLength(3),Validators.pattern(/^[a-zA-Z\s]*$/)]],
     apellido:['',[Validators.required, Validators.minLength(3),Validators.pattern(/^[a-zA-Z]*$/)]],
-    telefono:['',[Validators.required, Validators.pattern(/^d{9}$/)]],
-    correoRe:['',[Validators.required, Validators.email]],
-    passwordRe:['',[Validators.required, Validators.minLength(6)]]
+    telefono:['',[Validators.required, Validators.pattern(/^\d{9}$/)]],
+    correo:['',[Validators.required, Validators.email]],
+    contrasena:['',[Validators.required, Validators.minLength(8)]],
+    rol:['CLIENTE',Validators.required]
   })
   //getters and setters
   get nombre():AbstractControl|null{
@@ -83,6 +89,9 @@ export class Login {
   get passwordRegistro():AbstractControl|null{
     return this.registrForm.get('passwordRe');
   }
+  get rol(){
+    return this.registrForm.get('rol');
+  }
   //creacion del metodo
   registroFn(){
     if (this.registrForm.invalid) {
@@ -90,7 +99,18 @@ export class Login {
       console.log('formulario de registro invalido revice campos')
       return;
     }
-    console.log('Formulario de registro  valido', this.registrForm.value);
+    const datos:UsuarioModel= this.registrForm.value;
+    //operación de servicio
+    this.serv.postInsertIdUser(datos).subscribe({
+      next:(res)=>{
+        this.mensajeRegistro.set('Usuario registrado exzitosamente');
+        this.registrForm.reset();//tambien quiero mandarlo a inicio
+
+      }, error:(err)=>{
+        this.mensajeRegistro.set('Hubo un error al registrar el usuario');
+        console.error(err);
+      }
+    });
   }
 
 }
