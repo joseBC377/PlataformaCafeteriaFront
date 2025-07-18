@@ -82,7 +82,7 @@
                     <small>El apellido es obligatorio.</small>
                     }
                     @if (apellido?.errors?.['minlength']) {
-                    <small>Minimo{{apellido?.errors?.['minlength']}} caracteres.</small>
+                    <small>Minimo 3 caracteres.</small>
                     }
                     @if (apellido?.errors?.['pattern']) {
                     <small>El apellido solo puede contener letras y espacios.</small>
@@ -156,7 +156,7 @@
         }
         @if (mensajeRegistro()) 
         {
-            <div class="alert" [ngClass]="{'alert-success': mensajeRegistro() === 'Usuario registrado exitosamente', 'alert-danger': mensajeRegistro() === 'Hubo un error al registrar el usuario'}">
+            <div class="contenidov"  [ngClass]="{'alert-success': mensajeRegistro() === 'Usuario registrado exitosamente', 'alert-danger': mensajeRegistro() === 'Hubo un error al registrar el usuario'}">
                 <span>{{mensajeRegistro()}}</span>
             </div>
         }
