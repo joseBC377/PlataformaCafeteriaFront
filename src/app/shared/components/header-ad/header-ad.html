@@ -17,6 +17,9 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <hr>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                 <li>
+                    <a class="d-block d-lg-none" routerLink="/login" (click)="cerrarSesion()">Cerrar sesión</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLinkActive="active" routerLink="intranet" aria-current="page">Intranet</a>
                 </li>
@@ -44,10 +47,11 @@
                 </li> -->
             </ul>
         </div>
-        <div class="d-none d-lg-block perfil" style="margin-left: 1rem; margin-right: 1rem;">
-            <a routerLink="/login" class="text-decoration-none">
-                <i class="fas fa-user-circle"></i> 
+        <div class="d-none d-lg-block perfil" (click)="cerrarSesion()">
+            <a routerLink="/login" class="text-decoration-none" >
+                <!-- <i class="fas fa-user-circle"></i>  -->
+                Cerrar Sesión                                                                    
             </a>
         </div>
     </div>
-</nav>
+</nav> 
