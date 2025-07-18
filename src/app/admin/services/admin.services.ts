@@ -26,7 +26,7 @@ export class AdminServices {
   putUpdateUser(id:number, usuario:UsuarioModel):Observable<UsuarioModel>{
     return this.http.put<UsuarioModel>(`${this.API_URL}/actualizar/${id}`,usuario);
   }
-  deleteIdUser(id:number):Observable<UsuarioModel>{
+  deleteIdUser(id:number):Observable<any>{
     return this.http.delete<UsuarioModel>(`${this.API_URL}/eliminar/${id}`)
   }
 

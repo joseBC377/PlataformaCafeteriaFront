@@ -105,7 +105,7 @@
                 }
                 <div class="container-input">
                     <i class="fa-solid fa-envelope"></i>
-                    <input formControlName="correoRe" type="email" placeholder="Correo">
+                    <input formControlName="correo" type="email" placeholder="Correo">
                 </div>
                 @if (correoRegistro?.invalid && (correoRegistro?.dirty|| correoRegistro?.touched)) {
                 <div class="text-danger">
@@ -119,7 +119,7 @@
                 }
                 <div class="container-input">
                     <i class="fa-solid fa-lock"></i>
-                    <input formControlName="passwordRe" type="password" placeholder="Contraseña">
+                    <input formControlName="contrasena" type="password" placeholder="Contraseña">
                 </div>
                 @if (passwordRegistro?.invalid && (passwordRegistro?.dirty||passwordRegistro?.touched)) {
                 <div class="text-danger">
@@ -132,7 +132,7 @@
                     }
                 </div>
                 }
-                <button class="button">Registrate</button>
+                <button type="submit" class="button" [disabled]="registrForm.invalid">Registrate</button>
             </form>
         </div>
         <div class="container-welcome">
@@ -153,6 +153,12 @@
         <div class="contenido">
             <span>{{errorMsg()}}</span>
         </div>
+        }
+        @if (mensajeRegistro()) 
+        {
+            <div class="alert" [ngClass]="{'alert-success': mensajeRegistro() === 'Usuario registrado exitosamente', 'alert-danger': mensajeRegistro() === 'Hubo un error al registrar el usuario'}">
+                <span>{{mensajeRegistro()}}</span>
+            </div>
         }
     </div>
 </div>

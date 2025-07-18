@@ -36,7 +36,7 @@
       <input type="password" class="form-control" id="contrasena" formControlName="contrasena" placeholder="••••••••">
       <div *ngIf="contrasena?.invalid && (contrasena?.dirty || contrasena?.touched)" class="text-danger mt-1">
         <small *ngIf="contrasena?.errors?.['required']">La contraseña es obligatoria.</small>
-        <small *ngIf="contrasena?.errors?.['minlength']">Mínimo 6 caracteres.</small>
+        <small *ngIf="contrasena?.errors?.['minlength']">Mínimo 8 caracteres.</small>
       </div>
     </div>
 
@@ -49,69 +49,70 @@
       </div>
     </div>
 
-   <div class="col-md-4">
-  <label for="rol" class="form-label">Rol</label>
-  <select class="form-select" id="rol" formControlName="rol">
-    <option value="" disabled selected>Seleccione un rol...</option>
-    @for (r of roles; track r) {
-      <option [value]="r">{{ r }}</option>
-    }
-  </select>
-  <div *ngIf="rol?.invalid && (rol?.dirty || rol?.touched)" class="text-danger mt-1">
-    <small *ngIf="rol?.errors?.['required']">El rol es obligatorio.</small>
-  </div>
-</div>
+    <div class="col-md-4">
+      <label for="rol" class="form-label">Rol</label>
+      <select class="form-select" id="rol" formControlName="rol">
+        <option value="" disabled selected>Seleccione un rol...</option>
+        @for (r of roles; track r) {
+        <option [value]="r">{{ r }}</option>
+        }
+      </select>
+      <div *ngIf="rol?.invalid && (rol?.dirty || rol?.touched)" class="text-danger mt-1">
+        <small *ngIf="rol?.errors?.['required']">El rol es obligatorio.</small>
+      </div>
+    </div>
 
 
 
     <div class="col-12 mt-4">
       <button type="submit" class="btn" [ngClass]="modoEdicion ? 'btn-warning' : 'btn-success'"
-                [disabled]="usuarioForm.invalid">
-                {{ modoEdicion ? 'Actualizar Usuario' : 'Agregar Usuario' }}
-            </button>
-            <button type="button" class="btn btn-secondary ms-2" *ngIf="modoEdicion" (click)="resetFormulario()">
-                Cancelar Edición
-            </button>
+        [disabled]="usuarioForm.invalid">
+        {{ modoEdicion ? 'Actualizar Usuario' : 'Agregar Usuario' }}
+      </button>
+      <button type="button" class="btn btn-secondary ms-2" *ngIf="modoEdicion" (click)="resetFormulario()">
+        Cancelar Edición
+      </button>
     </div>
   </form>
-
-  <table class="table table-bordered table-hover mt-4">
-    <thead class="table-cafe">
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Correo</th>
-        <th>Celular</th>
-        <th>Rol</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      @if (usuario$|async; as user) {
-      @for (use of user; track use.id) {
-      <tr>
-        <td>{{ use.id }}</td>
-        <td>{{ use.nombre }}</td>
-        <td>{{ use.apellido }}</td>
-        <td>{{ use.correo }}</td>
-        <td>{{ use.telefono }}</td>
-        <td>{{ use.rol }}</td>
-        <td>
-          <button class="btn btn-primary btn-sm me-1"(click)="editarUsuario(use)">Editar</button>
-          <button class="btn btn-danger btn-sm" (click)="eliminarUsuario(use.id!!)">Eliminar</button>
-        </td>
-      </tr>
-      }@empty {
-      <tr>
-        <td colspan="7">No hay usuarios registrados</td>
-      </tr>
-      }
-      }@else {
-      <tr>
-        <td colspan="7">Cargando usuarios</td>
-      </tr>
-      }
-    </tbody>
-  </table>
+  <div class="table-responsive-sm">
+    <table class="table table-bordered table-hover mt-4">
+      <thead class="table-cafe">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Correo</th>
+          <th>Celular</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (usuario$|async; as user) {
+        @for (use of user; track use.id) {
+        <tr>
+          <td>{{ use.id }}</td>
+          <td>{{ use.nombre }}</td>
+          <td>{{ use.apellido }}</td>
+          <td>{{ use.correo }}</td>
+          <td>{{ use.telefono }}</td>
+          <td>{{ use.rol }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm me-1" (click)="editarUsuario(use)">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="eliminarUsuario(use.id!!)">Eliminar</button>
+          </td>
+        </tr>
+        }@empty {
+        <tr>
+          <td colspan="7">No hay usuarios registrados</td>
+        </tr>
+        }
+        }@else {
+        <tr>
+          <td colspan="7">Cargando usuarios</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
