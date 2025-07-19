@@ -91,6 +91,10 @@
     transition-duration: 0.4s;
     transition-timing-function: ease-in-out;
 }
+button:disabled {
+  opacity: 0.5; /* Esto hace que el botón se vea deshabilitado */
+  cursor: not-allowed;
+}
 
 
 @media (max-width: 768px) {
