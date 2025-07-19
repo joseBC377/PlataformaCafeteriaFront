@@ -19,7 +19,7 @@
         @for (m of mensajes; track m.id) {
         <tr>
           <td>{{ m.id }}</td>
-          <td>{{ m.id_usuario.id }}</td>
+          <td>{{ m.id_usuario?.id !==null ? m.id_usuario?.id:'Vacio' }}</td>
           <td>{{ m.nombre }}</td>
           <td>{{ m.apellido }}</td>
           <td>{{ m.correo }}</td>

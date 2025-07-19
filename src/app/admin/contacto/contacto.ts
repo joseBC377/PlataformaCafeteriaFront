@@ -34,26 +34,26 @@ export class Contacto {
     });
   }
 
-  enviarMensaje(): void {
-    if (this.contactoForm.invalid) {
-      this.contactoForm.markAllAsTouched();
-      return;
-    }
+  // enviarMensaje(): void {
+  //   if (this.contactoForm.invalid) {
+  //     this.contactoForm.markAllAsTouched();
+  //     return;
+  //   }
 
-    const data: ContactoModel = this.contactoForm.value;
+  //   const data: ContactoModel = this.contactoForm.value;
 
-    this.serv.postInsertContacto(data).subscribe({
-      next: () => {
-        alert('Mensaje enviado correctamente ');
-        this.contacto$ = this.serv.getSelectContact(); 
-        this.contactoForm.reset();
-      },
-      error: err => {
-        console.error('Error al enviar mensaje:', err);
-        alert('Error al enviar el mensaje');
-      }
-    });
-  }
+  //   this.serv.postInsertContacto(data).subscribe({
+  //     next: () => {
+  //       alert('Mensaje enviado correctamente ');
+  //       this.contacto$ = this.serv.getSelectContact(); 
+  //       this.contactoForm.reset();
+  //     },
+  //     error: err => {
+  //       console.error('Error al enviar mensaje:', err);
+  //       alert('Error al enviar el mensaje');
+  //     }
+  //   });
+  // }
   eliminarContacto(id: number): void {
   if (confirm('¿Deseas eliminar este mensaje?')) {
     this.serv.deleteContacto(id).subscribe({

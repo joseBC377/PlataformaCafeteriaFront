@@ -15,12 +15,12 @@ export class ContactoService {
   getSelectContactId(id: number): Observable<ContactoModel> {
     return this.http.get<ContactoModel>(`${this.API_URL}/lista/${id}`);
   }
- postInsertContacto(contacto: ContactoModel): Observable<ContactoModel> {
-  return this.http.post<ContactoModel>(`${this.API_URL}/insertar`, contacto);
-}
-deleteContacto(id: number): Observable<void> {
-  return this.http.delete<void>(`${this.API_URL}/eliminar/${id}`, { responseType: 'text' as 'json' });
-}
+  postInsertContacto(contacto: ContactoModel): Observable<ContactoModel> {
+    return this.http.post<ContactoModel>(`${this.API_URL}/insertar`, contacto);
+  }
+  deleteContacto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/eliminar/${id}`, { responseType: 'text' as 'json' });
+  }
 
 
 
