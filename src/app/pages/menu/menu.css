@@ -197,6 +197,16 @@
     height: 11.3rem;
     width: 100%;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagenM img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .tituloM {
@@ -242,10 +252,12 @@
 .salida i {
     font-size: 1.3rem;
 }
-.salida i:hover{
+
+.salida i:hover {
     color: red;
     transition: 0.2s ease-in-out;
 }
+
 .menu-flotante {
     position: fixed;
     top: 50%;
@@ -259,10 +271,12 @@
     width: 17%;
     transition: all 0.3s ease;
 }
-.menu-flotante.show{
+
+.menu-flotante.show {
     display: block;
 }
-.modal-overlay{
+
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -274,28 +288,29 @@
     align-items: center;
     justify-content: center;
 }
+
 .realizar-pedido {
-  display: flex;
-  justify-content: center;
-  margin: 30px 0 60px;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 60px;
 }
 
 .realizar-pedido button {
-  background-color:  #B55641;         
-  color: #ffffff;                 
-  padding: 12px 28px;                
-  font-size: 1.2rem;                 
-  font-weight: bold;                
-  border: none;                     
-  border-radius: 30px;              
-  cursor: pointer;                   
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  
-  transition: all 0.3s ease-in-out;  
+    background-color: #B55641;
+    color: #ffffff;
+    padding: 12px 28px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
 }
 
 .realizar-pedido button:hover {
-  background-color: #b65b31;         
-  transform: scale(1.05);           
+    background-color: #b65b31;
+    transform: scale(1.05);
 }
 
 
@@ -365,20 +380,22 @@
     .circulo img {
         height: 80%;
     }
+
     .menu-flotante {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 10px;
-    padding: 1.3rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
-    z-index: 1000;
-    width: 90%;
-    transition: all 0.3s ease;
-}
-.clase{
-    margin-left: 0 !important;
-}
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        border-radius: 10px;
+        padding: 1.3rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+        z-index: 1000;
+        width: 90%;
+        transition: all 0.3s ease;
+    }
+
+    .clase {
+        margin-left: 0 !important;
+    }
 }

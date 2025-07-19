@@ -1,7 +1,7 @@
 import { SubcategoriaModel } from "./subcategoria";
 
 export interface ProductoModel {
-  id?: number;
+  id: number;
   nombre: string;
   descripcion: string;
   imagen: string;

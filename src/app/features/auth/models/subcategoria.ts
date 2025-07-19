@@ -1,7 +1,7 @@
 import { CategoriaModel } from "./categoria";
 
 export interface SubcategoriaModel {
-  id?: number;
+  id: number;
   nombre: string;
   categoria: CategoriaModel; 
 }
