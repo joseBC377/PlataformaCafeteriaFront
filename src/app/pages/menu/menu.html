@@ -1,24 +1,21 @@
 <div class="cuerpo">
     <div class="categoria-mayor">
-        <!-- Itera sobre las categorías mayores usando @for y el async pipe -->
-        @if (categoria$|async; as categorias) {
+        @if (categoria$ | async; as categorias) {
         @for (c of categorias; track c.id) {
         <div class="categoria-mayor-item">
-            <div class="circulo" [ngClass]="{'activadorP': isCircle === c.id}" (click)="setCircle(c.id)">
-                <!-- <img [src]="categoria.imagen" [alt]="categoria.alt" /> -->
-                 <img src="/images/menu/nabvarM/Bebidas 1.svg" alt="Bebida">
+            <div class="circulo" [ngClass]="{ 'activadorP': isCircle === c.id }" (click)="setCircle(c.id)">
+                <img [src]="getIconoCategoria(c.nombre)" [alt]="c.nombre" />
             </div>
             <div class="letra">
                 <p>{{ c.nombre }}</p>
             </div>
         </div>
         } @empty {
-        <!-- Mensaje si no hay categorías mayores disponibles -->
         <p>No hay categorías principales disponibles.</p>
         }
-    }
-        
+        }
     </div>
+
     <div class="clase" style="margin-left: 14rem; ">
         <h3>SubCategorias</h3>
     </div>
@@ -82,24 +79,25 @@
         <i class="fa-solid fa-xmark"></i>
     </div>
     <div class="contenedor-flotante">
-       <!-- **CAMBIO CRÍTICO AQUÍ:** Usamos @if para verificar si hay un producto seleccionado -->
+        <!-- **CAMBIO CRÍTICO AQUÍ:** Usamos @if para verificar si hay un producto seleccionado -->
         @if (selectedProductoForModel) {
-            <div class="tituloM">
-                <!-- Ahora TypeScript sabe que selectedProductoForModel no es null aquí -->
-                <h3>{{selectedProductoForModel.nombre}}</h3>
-            </div>
-            <div class="imagenM">
-                <img [src]="'http://localhost:8082' + selectedProductoForModel.imagen" [alt]="selectedProductoForModel.nombre">
-            </div>
-            <div class="descripcion">
-                <p>{{selectedProductoForModel.descripcion}}</p>
-            </div>
-            <div class="botonM">
-                <button>{{selectedProductoForModel.precio | currency:'S/': 'symbol'}}</button>
-            </div>
+        <div class="tituloM">
+            <!-- Ahora TypeScript sabe que selectedProductoForModel no es null aquí -->
+            <h3>{{selectedProductoForModel.nombre}}</h3>
+        </div>
+        <div class="imagenM">
+            <img [src]="'http://localhost:8082' + selectedProductoForModel.imagen"
+                [alt]="selectedProductoForModel.nombre">
+        </div>
+        <div class="descripcion">
+            <p>{{selectedProductoForModel.descripcion}}</p>
+        </div>
+        <div class="botonM">
+            <button>{{selectedProductoForModel.precio | currency:'S/': 'symbol'}}</button>
+        </div>
         } @else {
-            <!-- Este bloque se mostrará si el modal se abre pero no hay un producto seleccionado -->
-            <p>No se ha seleccionado un producto para mostrar detalles.</p>
+        <!-- Este bloque se mostrará si el modal se abre pero no hay un producto seleccionado -->
+        <p>No se ha seleccionado un producto para mostrar detalles.</p>
         }
 
     </div>

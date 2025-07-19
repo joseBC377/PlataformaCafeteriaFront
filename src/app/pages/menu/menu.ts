@@ -38,16 +38,28 @@ export class Menu implements OnInit {
     alert('Gracias por tu pedido 🛍️ ¡Estamos preparándolo!');
   }
 
+  categoriaIconos: { [key: string]: string } = {
+    'bebidas': 'images/menu/nabvarM/Bebidas 1.svg',
+    'merch': 'images/menu/nabvarM/icon-park-outline_commodity.svg',
+    'packs': 'images/menu/nabvarM/lsicon_badge-promotion-outline.svg',
+    'alimentos': 'images/menu/nabvarM/ph_bowl-food-light.svg',
+  };
+  // Función para normalizar nombres de categoría
+  // esto evita errores por mayúsculas o plurales.
+  getIconoCategoria(nombre: string): string {
+    const normalizado = nombre.toLowerCase().replace(/\s+/g, '');
+    return this.categoriaIconos[normalizado] || 'assets/images/default.svg';
+  }
   protected producto$!: Observable<ProductoModel[]>;
   protected categoria$!: Observable<CategoriaModel[]>;
   protected subcategoria$!: Observable<SubcategoriaModel[]>;
- constructor(
-    private pro: ProductoServices, 
-    private cat: CategoriaServices, 
+  constructor(
+    private pro: ProductoServices,
+    private cat: CategoriaServices,
     private sub: SubcategoriaServices // Angular proporcionará una instancia de SubcategoriaServices aquí
-  ) {}
+  ) { }
 
- ngOnInit() {
+  ngOnInit() {
     // Ahora 'this.pro', 'this.cat' y 'this.sub' estarán definidos
     this.producto$ = this.pro.getAllProductos().pipe( // Llama como método si lo es
       tap(data => console.log('Productos cargados:', data)),
