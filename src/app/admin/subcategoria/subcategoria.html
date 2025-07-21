@@ -1,0 +1,78 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-center text-md-start">Gestión de Subcategorías 🗂️</h2>
+
+  <form [formGroup]="subcategoriaForm" (ngSubmit)="registroSubcategoria()" class="row g-3">
+    <div class="col-12 col-md-6">
+      <input type="text" class="form-control" placeholder="Nombre de Subcategoría" formControlName="nombre" />
+      @if (nombre?.invalid && (nombre?.touched || nombre?.dirty)) {
+      <div class="text-danger mt-1">
+        @if (nombre?.errors?.['required']) {
+        <small>El nombre es obligatorio.</small>
+        }
+        @if (nombre?.errors?.['minlength']) {
+        <small>Mínimo 3 caracteres.</small>
+        }
+      </div>
+      }
+    </div>
+
+    <div class="col-12 col-md-4">
+      <select class="form-select" formControlName="categoria" [compareWith]="compararCategorias" required>
+        <option value="">Seleccionar Categoría</option>
+        @if (categorias$ | async; as catList) {
+        @for (cat of catList; track cat.id) {
+        <option [ngValue]="cat">{{ cat.nombre }}</option>
+        }
+        }
+      </select>
+    </div>
+
+    <div class="col-12 col-md-2 d-flex flex-column flex-md-row align-items-start">
+      <button type="submit" class="btn mb-2 mb-md-0 me-md-2"
+        [ngClass]="modoEdicion ? 'btn-warning' : 'btn-success'" [disabled]="subcategoriaForm.invalid">
+        {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
+      </button>
+      @if (modoEdicion) {
+      <button type="button" class="btn btn-secondary" (click)="resetFormulario()">Cancelar</button>
+      }
+    </div>
+  </form>
+
+  <div class="table-responsive mt-4">
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (subcategorias$ | async; as subList) {
+        @for (sub of subList; track sub.id) {
+        <tr>
+          <td>{{ sub.id }}</td>
+          <td>{{ sub.nombre }}</td>
+          <td>{{ sub.categoria.nombre }}</td>
+          <td>
+            <div class="d-flex flex-column flex-md-row gap-2 justify-content-center">
+              <button class="btn btn-warning btn-sm" (click)="editarSubcategoria(sub)">Editar</button>
+              <button class="btn btn-danger btn-sm" (click)="eliminarSubcategoria(sub.id!)">Eliminar</button>
+            </div>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="4" class="text-center">No hay subcategorías registradas.</td>
+        </tr>
+        }
+        } @else {
+        <tr>
+          <td colspan="4" class="text-center">Cargando subcategorías...</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

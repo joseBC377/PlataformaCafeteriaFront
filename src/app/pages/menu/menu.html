@@ -1,156 +1,107 @@
 <div class="cuerpo">
     <div class="categoria-mayor">
+        <!-- Itera sobre las categorías mayores usando @for y el async pipe -->
+        @if (categoria$|async; as categorias) {
+        @for (c of categorias; track c.id) {
         <div class="categoria-mayor-item">
-            <div class="circulo" [ngClass]="{'activadorP':isCircle===1}" (click)="setCircle(1)">
-                <img src="/images/menu/nabvarM/Bebidas 1.svg" alt="Bebida">
+            <div class="circulo" [ngClass]="{'activadorP': isCircle === c.id}" (click)="setCircle(c.id)">
+                <!-- <img [src]="categoria.imagen" [alt]="categoria.alt" /> -->
+                 <img src="/images/menu/nabvarM/Bebidas 1.svg" alt="Bebida">
             </div>
             <div class="letra">
-                <p>Bebidas</p>
+                <p>{{ c.nombre }}</p>
             </div>
         </div>
-        <div class="categoria-mayor-item">
-            <div class="circulo" [ngClass]="{'activadorP':isCircle===2}" (click)="setCircle(2)">
-                <img src="/images/menu/nabvarM/ph_bowl-food-light.svg" alt="Alimentos">
-            </div>
-            <div class="letra">
-                <p>Alimentos</p>
-            </div>
-        </div>
-        <div class="categoria-mayor-item">
-            <div class="circulo" [ngClass]="{'activadorP':isCircle===3}" (click)="setCircle(3)">
-                <img src="/images/menu/nabvarM/icon-park-outline_commodity.svg" alt="Merch">
-            </div>
-            <div class="letra">
-                <p>Mercancia</p>
-            </div>
-        </div>
-        <div class="categoria-mayor-item">
-            <div class="circulo" [ngClass]="{'activadorP':isCircle===4}" (click)="setCircle(4)">
-                <img src="/images/menu/nabvarM/lsicon_badge-promotion-outline.svg" alt="paquetes">
-            </div>
-            <div class="letra">
-                <p>Paquetes</p>
-            </div>
-        </div>
+        } @empty {
+        <!-- Mensaje si no hay categorías mayores disponibles -->
+        <p>No hay categorías principales disponibles.</p>
+        }
+    }
+        
     </div>
     <div class="clase" style="margin-left: 14rem; ">
-        <h3>Categorias</h3>
+        <h3>SubCategorias</h3>
     </div>
     <div class="centrado">
         <div class="categoria-menor">
-            <div class="categoria-menor-subtitulo" [ngClass]="{'activado':isActive===1}" (click)="setActive(1)">
-                <p>Frappuccinos</p>
+            <!-- Itera sobre las subcategorías usando @for y el async pipe -->
+            @if (subcategoria$|async; as subcategoria) {
+            @for (s of subcategoria; track s.id) {
+            <div class="categoria-menor-subtitulo" [ngClass]="{'activado': isActive === s.id}"
+                (click)="setActive(s.id)">
+                <p>{{ s.nombre }}</p>
             </div>
-            <div class="categoria-menor-subtitulo" [ngClass]="{'activado':isActive===2}" (click)="setActive(2)">
-                <p>Espresso Caliente</p>
+            } @empty {
+            <!-- Mensaje si no hay subcategorías disponibles -->
+            <p>Selecciona una categoría principal para ver las subcategorías.</p>
+            }
+            }
+
+        </div>
+    </div>
+</div>
+<div class="contenedor-tarjeta">
+    <!-- Muestra "Cargando productos..." mientras se cargan los datos -->
+    @if (!(producto$ | async)) {
+    <p>Cargando productos...</p>
+    } @else {
+    <!-- Itera sobre los productos usando @for y el async pipe -->
+    @for (prod of producto$ | async; track prod.id) {
+    <div class="tarjeta">
+        <div class="titulo">
+            <p>{{ prod.nombre }}</p>
+        </div>
+        <div class="imagen">
+            <!-- La URL de la imagen se concatena con la base de tu servidor -->
+            <img [src]="'http://localhost:8082' + prod.imagen" [alt]="prod.nombre" />
+        </div>
+        <div class="botones">
+            <div class="mostrar">
+                <button (click)="toggleModal(prod)">
+                    Mostrar Más <i class="fas fa-magnifying-glass"></i>
+                </button>
             </div>
-            <div class=" categoria-menor-subtitulo" [ngClass]="{'activado':isActive===3}" (click)="setActive(3)">
-                <p>Espresso Frío</p>
-            </div>
-            <div class=" categoria-menor-subtitulo" [ngClass]="{'activado':isActive===4}" (click)="setActive(4)">
-                <p>Refreshers</p>
-            </div>
-            <div class=" categoria-menor-subtitulo" [ngClass]="{'activado':isActive===5}" (click)="setActive(5)">
-                <p>Shaken Espresso</p>
+            <div class="precio">
+                <!-- Aplica el CurrencyPipe para formatear el precio -->
+                <button>{{ prod.precio | currency : 'S/' : 'symbol' }}</button>
             </div>
         </div>
     </div>
-    <div class="contenedor-tarjeta">
-        <div class="tarjeta">
-            <div class="titulo">
-                <p>Mocha blanco Frappuccino ® Alto</p>
-            </div>
-            <div class="imagen">
-                <img src="/images/menu/imagen_carta/image_1.jpg" alt="image_1">
-            </div>
-            <div class="botones">
-                <div class="mostrar">
-                    <button>Mostrar Más <i class="fas fa-magnifying-glass"></i></button>
-                </div>
-                <div class="precio">
-                    <button>{{18.50| currency: 'S/' : 'symbol'}}</button>
-                </div>
-            </div>
-        </div>
-        <div class="tarjeta">
-            <div class="titulo">
-                <p>Cookies & Creme Frappuccino Alto</p>
-            </div>
-            <div class="imagen">
-                <img src="/images/menu/imagen_carta/image_2.jpg" alt="image_2">
-            </div>
-            <div class="botones">
-                <div class="mostrar">
-                    <button>Mostrar Más <i class="fas fa-magnifying-glass"></i></button>
-                </div>
-                <div class="precio">
-                    <button>{{16.50| currency: 'S/' : 'symbol'}}</button>
-                </div>
-            </div>
-        </div>
-        <div class="tarjeta">
-            <div class="titulo">
-                <p>Chocolate Cookies & Creme Frappuccino Alto</p>
-            </div>
-            <div class="imagen">
-                <img src="/images/menu/imagen_carta/image_3.png" alt="image_3">
-            </div>
-            <div class="botones">
-                <div class="mostrar">
-                    <button>Mostrar Más <i class="fas fa-magnifying-glass"></i></button>
-                </div>
-                <div class="precio">
-                    <button>{{17.00| currency: 'S/' : 'symbol'}}</button>
-                </div>
-            </div>
-        </div>
-        <div class="tarjeta">
-            <div class="titulo">
-                <p>Matcha late</p>
-            </div>
-            <div class="imagen">
-                <img src="/images/menu/imagen_carta/image_4.png" alt="image_4">
-            </div>
-            <div class="botones">
-                <div class="mostrar">
-                    <button  (click)="toggleModal()">Mostrar Más <i class="fas fa-magnifying-glass"></i></button>
-                </div>
-                <div class="precio">
-                    <button>{{16.00| currency: 'S/' : 'symbol'}}</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @if (mostrarElemento) {
-        <div class="modal-overlay" (click)="toggleModal()" ></div>
+    } @empty {
+    <!-- Mensaje si no hay productos disponibles para la selección actual -->
+    <p>No hay productos disponibles para esta categoría/subcategoría.</p>
     }
-  @if (mostrarElemento) {
-  <div class="menu-flotante">
+    }
+</div>
+@if (mostrarElemento) {
+<div class="modal-overlay" (click)="toggleModal()"></div>
+}
+@if (mostrarElemento) {
+<div class="menu-flotante">
     <div class="salida" (click)="toggleModal()">
-      <i class="fa-solid fa-xmark"></i>
+        <i class="fa-solid fa-xmark"></i>
     </div>
     <div class="contenedor-flotante">
-      <div class="tituloM">
-        <h3>Matcha late</h3>
-      </div>
-      <div class="imagenM">
-        <img src="/images/menu/imagen_carta/image_4.png" alt="image_4">
-      </div>
-      <div class="descripcion">
-        <p>Frappuccino a base de matcha y leche, decorado con crema batida, sin café. Imágenes referenciales</p>
-      </div>
-      <div class="botonM">
-        <button>{{16.00|currency:'S/': 'symbol'}}</button>
-      </div>
+       <!-- **CAMBIO CRÍTICO AQUÍ:** Usamos @if para verificar si hay un producto seleccionado -->
+        @if (selectedProductoForModel) {
+            <div class="tituloM">
+                <!-- Ahora TypeScript sabe que selectedProductoForModel no es null aquí -->
+                <h3>{{selectedProductoForModel.nombre}}</h3>
+            </div>
+            <div class="imagenM">
+                <img [src]="'http://localhost:8082' + selectedProductoForModel.imagen" [alt]="selectedProductoForModel.nombre">
+            </div>
+            <div class="descripcion">
+                <p>{{selectedProductoForModel.descripcion}}</p>
+            </div>
+            <div class="botonM">
+                <button>{{selectedProductoForModel.precio | currency:'S/': 'symbol'}}</button>
+            </div>
+        } @else {
+            <!-- Este bloque se mostrará si el modal se abre pero no hay un producto seleccionado -->
+            <p>No se ha seleccionado un producto para mostrar detalles.</p>
+        }
+
     </div>
-  </div>
-}
-
-<!-- Botón de Pedido siempre visible -->
-<div class="realizar-pedido">
-  <button (click)="realizarPedido()">
-    Realizar Pedido
-  </button>
 </div>
-
-
+}

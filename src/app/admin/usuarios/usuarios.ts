@@ -1,79 +1,136 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { AdminServices } from '../services/admin.services';
+import { UsuarioModel } from '../../features/auth/models/usuario';
 
 @Component({
-  selector: 'app-usuario',
+  selector: 'app-usuarios',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './usuarios.html',
   styleUrls: ['./usuarios.css']
 })
-export class UsuarioComponent {
-  modoEdicion = false;
-  idUsuarioEditar: number | null = null;
+export class Usuarios {
+  protected usuariosSubject = new BehaviorSubject<UsuarioModel[]>([]);
+  protected usuario$ = this.usuariosSubject.asObservable();
+  protected usuarioForm!: FormGroup;
+  protected roles: string[] = ['ADMIN', 'CLIENTE'];
+  protected modoEdicion = false;
+  private idUsuarioEditando: number | null = null;
 
-  usuarios: any[] = [];
+  private serv = inject(AdminServices);
+  private fb = inject(FormBuilder);
 
-  nuevoUsuario = {
-    nombre: '',
-    apellido: '',
-    correo: '',
-    contrasena: '',  // 🔁 sin "ñ"
-    direccion: '',
-    telefono_celular: '',
-    rol: 'Cliente'
-  };
-
-  roles = ['Cliente', 'Administrador'];
-
-  agregarUsuario() {
-    const nuevo = {
-      ...this.nuevoUsuario,
-      id_usuario: this.usuarios.length + 1
-    };
-    this.usuarios.push(nuevo);
-    this.resetFormulario();
+  ngOnInit(): void {
+    this.crearFormulario();
+    this.cargarUsuarios();
   }
+  private crearFormulario() {
+    this.usuarioForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      apellido: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      correo: ['', [Validators.required, Validators.email]],
+      contrasena: ['', [Validators.required, Validators.minLength(8)]],
+      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
+      rol: ['', Validators.required]
+    });
 
-  editarUsuario(usuario: any) {
-    this.nuevoUsuario = { ...usuario };
-    this.modoEdicion = true;
-    this.idUsuarioEditar = usuario.id_usuario;
   }
-
-  actualizarUsuario() {
-    if (this.idUsuarioEditar !== null) {
-      const index = this.usuarios.findIndex(u => u.id_usuario === this.idUsuarioEditar);
-      if (index !== -1) {
-        this.usuarios[index] = { ...this.nuevoUsuario, id_usuario: this.idUsuarioEditar };
+  private cargarUsuarios() {
+    this.serv.getSeletAllUsers().subscribe({
+      next: (data) => {
+        console.log('usuarios cargados: ', data);
+        this.usuariosSubject.next(data);
+      },
+      error: (err) => {
+        console.error('error al cargar usuarios', err)
       }
-      this.modoEdicion = false;
-      this.idUsuarioEditar = null;
-      this.resetFormulario();
+    });
+  }
+  get nombre() { return this.usuarioForm.get('nombre'); }
+  get apellido() { return this.usuarioForm.get('apellido'); }
+  get correo() { return this.usuarioForm.get('correo'); }
+  get contrasena() { return this.usuarioForm.get('contrasena'); }
+  get telefono() { return this.usuarioForm.get('telefono'); }
+  get rol() { return this.usuarioForm.get('rol'); }
+
+  registroFn() {
+    if (this.usuarioForm.invalid) {
+      this.usuarioForm.markAllAsTouched();
+      console.log('Formulario de registro inválido');
+      return;
+    }
+    const datos: UsuarioModel = this.usuarioForm.value;
+    if (this.modoEdicion && this.idUsuarioEditando !== null) {
+      this.serv.putUpdateUser(this.idUsuarioEditando, datos).subscribe({
+        next: () => {
+          console.log('Usuario actualizado');
+          this.resetFormulario();
+          this.cargarUsuarios(); // Recargar usuarios después de actualización
+        },
+        error: (err) => {
+          console.error('Error al actualizar usuario:', err);
+        }
+      });
+    } else {
+      this.serv.postInsertIdUser(datos).subscribe({
+        next: () => {
+          console.log('Usuario insertado');
+          this.usuarioForm.reset();
+          this.cargarUsuarios(); // Recargar usuarios después de inserción
+        },
+        error: (err) => {
+          console.error('Error al insertar usuario:', err);
+        }
+      });
     }
   }
 
+  editarUsuario(usuario: UsuarioModel) {
+    this.modoEdicion = true;
+    this.idUsuarioEditando = usuario.id!;
+    this.usuarioForm.patchValue(usuario);
+  }
+
   eliminarUsuario(id: number) {
-    const confirmar = confirm('¿Deseas eliminar este usuario?');
-    if (confirmar) {
-      this.usuarios = this.usuarios.filter(u => u.id_usuario !== id);
-      if (this.idUsuarioEditar === id) {
-        this.modoEdicion = false;
-        this.idUsuarioEditar = null;
-      }
+    console.log('Eliminando usuario con id:', id);
+    if (confirm('¿Estás seguro que deseas eliminar este usuario?')) {
+      this.serv.deleteIdUser(id).subscribe({
+        next: (response: any) => {
+          console.log('Respuesta recibida:', response);
+
+          // Accede al mensaje y al ID desde la respuesta
+          const message = response.message; // "Usuario eliminado correctamente"
+          const deletedUserId = response.id; // El ID del usuario eliminado
+
+          // Muestra el mensaje en consola
+          console.log(message);
+
+          // Filtramos el usuario eliminado de la lista y actualizamos el BehaviorSubject
+          this.usuariosSubject.next(
+            this.usuariosSubject.value.filter(usuario => usuario.id !== deletedUserId)
+          );
+        },
+        error: (err) => {
+          console.error('Error al eliminar usuario:', err);
+          if (err.status === 404) {
+            console.log('Usuario no encontrado en la base de datos');
+            this.usuariosSubject.next(
+              this.usuariosSubject.value.filter(usuario => usuario.id !== id)
+            );
+          } else {
+            alert('Error al eliminar. Verifica si el usuario ya fue eliminado.');
+          }
+        }
+      });
     }
   }
 
   resetFormulario() {
-    this.nuevoUsuario = {
-      nombre: '',
-      apellido: '',
-      correo: '',
-      contrasena: '',
-      direccion: '',
-      telefono_celular: '',
-      rol: 'Cliente'
-    };
+    this.usuarioForm.reset();
+    this.modoEdicion = false;
+    this.idUsuarioEditando = null;
   }
 }

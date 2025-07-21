@@ -18,20 +18,20 @@
             <hr>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li>
-                    <a class="d-block d-lg-none" routerLink="/login">Iniciar sesión</a>
+                    <a class="d-block d-lg-none" routerLinkActive="active" routerLink="/login">Iniciar sesión</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link active" routerLink="/" aria-current="page">Inicio</a>
+                    <a class="nav-link active" routerLinkActive="active" routerLink="" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/nosotros">Nosotros</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/nosotros">Nosotros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/menu">Menú</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/menu">Menú</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/contactanos">Contáctanos</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/contactanos">Contáctanos</a>
                 </li>
             </ul>
         </div>

@@ -1,39 +1,71 @@
+
+import { Component, inject } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ContactoModel } from '../../features/auth/models/contacto';
+import { ContactoService } from '../services/contacto.services';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-contactanos',
+  selector: 'app-contacto',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contacto.html',
   styleUrl: './contacto.css'
 })
-export class ContactanosComponent {
-  contactos = [
-    {
-      id_contacto: 1,
-      nombre: 'Ana Torres',
-      correo: 'ana@mail.com',
-      telefono: '912345678',
-      mensaje: '¿Puedo reservar una mesa para mañana a las 5pm?'
-    },
-    {
-      id_contacto: 2,
-      nombre: 'Pedro Salazar',
-      correo: 'pedro@mail.com',
-      telefono: '987654321',
-      mensaje: '¿Qué métodos de pago aceptan en la cafetería?'
-    },
-    {
-      id_contacto: 3,
-      nombre: 'Lucía Gamarra',
-      correo: 'lucia@mail.com',
-      telefono: '934567890',
-      mensaje: 'Estoy interesada en hacer un evento privado.'
-    }
-  ];
+export class Contacto {
+  protected contacto$!: Observable<ContactoModel[]>;
+  protected contactoForm!: FormGroup;
 
-  eliminarContacto(id: number) {
-    this.contactos = this.contactos.filter(c => c.id_contacto !== id);
+  private serv = inject(ContactoService);
+  private fb = inject(FormBuilder);
+
+  ngOnInit(): void {
+    this.contacto$ = this.serv.getSelectContact();
+
+    this.contactoForm = this.fb.group({
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      mensaje: ['', Validators.required],
+      id_usuario: this.fb.group({
+        id: [null, Validators.required]
+      })
+    });
   }
+
+  // enviarMensaje(): void {
+  //   if (this.contactoForm.invalid) {
+  //     this.contactoForm.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   const data: ContactoModel = this.contactoForm.value;
+
+  //   this.serv.postInsertContacto(data).subscribe({
+  //     next: () => {
+  //       alert('Mensaje enviado correctamente ');
+  //       this.contacto$ = this.serv.getSelectContact(); 
+  //       this.contactoForm.reset();
+  //     },
+  //     error: err => {
+  //       console.error('Error al enviar mensaje:', err);
+  //       alert('Error al enviar el mensaje');
+  //     }
+  //   });
+  // }
+  eliminarContacto(id: number): void {
+  if (confirm('¿Deseas eliminar este mensaje?')) {
+    this.serv.deleteContacto(id).subscribe({
+      next: () => {
+        this.contacto$ = this.serv.getSelectContact(); 
+      },
+      error: err => {
+        console.error('Error al eliminar contacto:', err);
+        alert('Error al eliminar el mensaje');
+      }
+    });
+  }
+}
+
 }

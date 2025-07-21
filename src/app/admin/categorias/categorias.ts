@@ -1,69 +1,79 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CategoriaModel } from '../../features/auth/models/categoria';
+import { CategoriaServices } from '../services/categoria.services';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './categorias.html',
   styleUrls: ['./categorias.css']
 })
 export class CategoriasComponent {
-  modoEdicion = false;
-  idCategoriaEditar: number | null = null;
+  protected categorias$!: Observable<CategoriaModel[]>;
+  private serv = inject(CategoriaServices);
+  private fb = inject(FormBuilder)
 
-  categorias = [
-    { id_categoria: 1, nombre: 'Frappuccinos' },
-    { id_categoria: 2, nombre: 'Espresso Caliente' },
-    { id_categoria: 3, nombre: 'Matcha' }
-  ];
+  public categoriaForm: FormGroup = this.fb.group({
+    id: [null],
+    nombre: ['', [Validators.required, Validators.minLength(3)]],
+  });
 
-  nuevaCategoria = {
-    nombre: ''
-  };
+  public modoEdicion = false;
+  public idCategoriaEditar: number | null = null;
 
-  agregarCategoria() {
-    const nueva = {
-      ...this.nuevaCategoria,
-      id_categoria: this.categorias.length + 1
-    };
-    this.categorias.push(nueva);
-    this.resetFormulario();
+  get nombre() { return this.categoriaForm.get('nombre'); }
+
+ngOnInit(): void {
+  this.categorias$ = this.serv.getSelectcategoria().pipe(
+    map(categorias => categorias.sort((a, b) => a.id - b.id))
+  );
+}
+
+  registroCategoria(): void {
+    if (this.categoriaForm.invalid) {
+      this.categoriaForm.markAllAsTouched();
+      console.log('Formulario inválido');
+      return;
+    }
+
+    const data = this.categoriaForm.value;
+
+    if (this.modoEdicion) {
+      this.serv.putUpdatecategoria(this.idCategoriaEditar!, data).subscribe(() => {
+        this.categorias$ = this.serv.getSelectcategoria();
+        this.resetFormulario();
+      });
+    } else {
+      this.serv.postcategoria(data).subscribe(() => {
+        this.categorias$ = this.serv.getSelectcategoria();
+        this.resetFormulario();
+      });
+    }
   }
 
-  editarCategoria(categoria: any) {
-    this.nuevaCategoria = { ...categoria };
+  editarCategoria(cat: CategoriaModel): void {
+    this.categoriaForm.patchValue(cat);
+    this.idCategoriaEditar = cat.id ?? null;
     this.modoEdicion = true;
-    this.idCategoriaEditar = categoria.id_categoria;
   }
 
-  actualizarCategoria() {
-    if (this.idCategoriaEditar !== null) {
-      const index = this.categorias.findIndex(c => c.id_categoria === this.idCategoriaEditar);
-      if (index !== -1) {
-        this.categorias[index] = { ...this.nuevaCategoria, id_categoria: this.idCategoriaEditar };
-      }
-      this.modoEdicion = false;
-      this.idCategoriaEditar = null;
-      this.resetFormulario();
+  eliminarCategoria(id: number): void {
+    if (confirm('¿Deseas eliminar esta categoría?')) {
+      this.serv.deleteIdcategoria(id).subscribe(() => {
+        this.categorias$ = this.serv.getSelectcategoria();
+        if (this.idCategoriaEditar === id) this.resetFormulario();
+      });
     }
   }
 
-  eliminarCategoria(id: number) {
-    const confirmar = confirm('¿Deseas eliminar esta categoría?');
-    if (confirmar) {
-      this.categorias = this.categorias.filter(c => c.id_categoria !== id);
-      if (this.idCategoriaEditar === id) {
-        this.modoEdicion = false;
-        this.idCategoriaEditar = null;
-      }
-    }
+  resetFormulario(): void {
+    this.categoriaForm.reset();
+    this.modoEdicion = false;
+    this.idCategoriaEditar = null;
   }
 
-  resetFormulario() {
-    this.nuevaCategoria = {
-      nombre: ''
-    };
-  }
 }
