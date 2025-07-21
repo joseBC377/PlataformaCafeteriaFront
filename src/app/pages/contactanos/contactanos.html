@@ -3,40 +3,71 @@
     <div class="form-title">Hablemos de café</div>
     <div class="form-subtitle">Tu mensaje es tan importante como tu café de cada día ☕</div>
 
-    <form class="form-box" [formGroup]="contactoformulario" (ngSubmit)="contactoForm()">
-      <!-- <div class="form-box"> -->
-      <label for="nombre">Nombre completo</label>
-      <input type="text" id="nombre" formControlName="nombre" placeholder="">
-
-      <div *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)" class="text-danger">
-        <small *ngIf="nombre?.errors?.['required']">El nombre es obligatorio.</small>
-        <small *ngIf="nombre?.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
-        <small *ngIf="nombre?.errors?.['pattern']">Solo se permiten letras.</small>
+    @if (mensajeEnviado) {
+      <div class="alert alert-success" role="alert">
+        ¡Tu mensaje ha sido enviado con éxito! ☕
       </div>
+    }
+
+    <form class="form-box" [formGroup]="contactoformulario" (ngSubmit)="contactoForm()">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" formControlName="nombre" placeholder="" />
+
+      @if (nombre?.invalid && (nombre?.dirty || nombre?.touched)) {
+        <div class="text-danger">
+          @if (nombre?.errors?.['required']) {
+            <small>El nombre es obligatorio.</small>
+          }
+          @if (nombre?.errors?.['minlength']) {
+            <small>Debe tener al menos 2 caracteres.</small>
+          }
+          @if (nombre?.errors?.['pattern']) {
+            <small>Solo se permiten letras.</small>
+          }
+        </div>
+      }
 
       <label for="apellido">Apellido</label>
-      <input type="text" id="apellido" formControlName="apellido" placeholder="">
+      <input type="text" id="apellido" formControlName="apellido" placeholder="" />
 
-      <div *ngIf="apellido?.invalid && (apellido?.dirty || apellido?.touched)" class="text-danger">
-        <small *ngIf="apellido?.errors?.['required']">El apellido es obligatorio.</small>
-        <small *ngIf="apellido?.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
-        <small *ngIf="apellido?.errors?.['pattern']">Solo se permiten letras.</small>
-      </div>
+      @if (apellido?.invalid && (apellido?.dirty || apellido?.touched)) {
+        <div class="text-danger">
+          @if (apellido?.errors?.['required']) {
+            <small>El apellido es obligatorio.</small>
+          }
+          @if (apellido?.errors?.['minlength']) {
+            <small>Debe tener al menos 2 caracteres.</small>
+          }
+          @if (apellido?.errors?.['pattern']) {
+            <small>Solo se permiten letras.</small>
+          }
+        </div>
+      }
 
-      <label for="email">Correo electrónico</label>
-      <input type="email" id="correo" formControlName="correo" placeholder="">
+      <label for="correo">Correo electrónico</label>
+      <input type="email" id="correo" formControlName="correo" placeholder="" />
 
-      <div *ngIf="correo?.invalid && (correo?.dirty || correo?.touched)" class="text-danger">
-        <small *ngIf="correo?.errors?.['required']">El correo es obligatorio.</small>
-        <small *ngIf="correo?.errors?.['correo']">Formato de correo inválido.</small>
-      </div>
+      @if (correo?.invalid && (correo?.dirty || correo?.touched)) {
+        <div class="text-danger">
+          @if (correo?.errors?.['required']) {
+            <small>El correo es obligatorio.</small>
+          }
+          @if (correo?.errors?.['correo']) {
+            <small>Formato de correo inválido.</small>
+          }
+        </div>
+      }
 
       <label for="mensaje">Mensaje</label>
       <textarea id="mensaje" formControlName="mensaje" rows="5" placeholder=""></textarea>
 
-      <div *ngIf="mensaje?.invalid && (mensaje?.dirty || mensaje?.touched)" class="text-danger">
-        <small *ngIf="mensaje?.errors?.['required']">El mensaje es obligatorio.</small>
-      </div>
+      @if (mensaje?.invalid && (mensaje?.dirty || mensaje?.touched)) {
+        <div class="text-danger">
+          @if (mensaje?.errors?.['required']) {
+            <small>El mensaje es obligatorio.</small>
+          }
+        </div>
+      }
 
       <div class="btn-wrapper">
         <button type="submit" class="btn-enviar" [disabled]="contactoformulario.invalid">Enviar</button>
